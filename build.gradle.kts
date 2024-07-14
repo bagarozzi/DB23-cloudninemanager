@@ -27,7 +27,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass.set("it.unibo.cloudnine.App")
+    mainClass.set("it.unibo.cloudnine.CloudNine")
 }
 
 tasks.named<Test>("test") {
