@@ -4,6 +4,9 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
+import it.unibo.cloudnine.dao.UserManagementDAO;
+import it.unibo.cloudnine.view.tabs.LoginTab;
+
 
 public class View {
 
@@ -15,16 +18,38 @@ public class View {
         frame.setSize(new Dimension(600, 600));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        frame.add(pane);
         showLoginTab();
         frame.setVisible(true);
     }
 
     public void showLoginTab() {
         pane.removeAll();
-        pane.add(new LoginTab(this));
+        pane.add(new LoginTab(this), "Log in!");
     }
 
     public void showUserTabs(final String user) {
+        pane.removeAll();
+        switch(UserManagementDAO.getUserType(user)) {
+            case ADMIN:
+                setAdminTabs();
+            case COOK: 
+                setCookTabs();
+            case WAITER:
+                setWaiterTabs();
+        }
+
+    }
+
+    private void setAdminTabs() {
+
+    }
+
+    private void setCookTabs() {
         
+    }
+
+    private void setWaiterTabs() {
+
     }
 }
