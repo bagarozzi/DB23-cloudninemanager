@@ -8,4 +8,3 @@
  */
 
 rootProject.name = "cloudnine"
-include("app")
