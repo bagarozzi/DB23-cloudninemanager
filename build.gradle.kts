@@ -26,6 +26,12 @@ dependencies {
 
     // Dependency for connecting the database to the application
     implementation("com.mysql:mysql-connector-j:9.0.0")
+
+    // Dependency for better UI
+    implementation("com.formdev:flatlaf:3.4.1")
+
+    // (Swing X) implementation("com.formdev:flatlaf-swingx:3.4.1")
+    implementation("com.formdev:flatlaf-intellij-themes:3.4.1")
 }
 
 application {
