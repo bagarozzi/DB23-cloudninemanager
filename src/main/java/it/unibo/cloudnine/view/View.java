@@ -1,11 +1,8 @@
 package it.unibo.cloudnine.view;
 
 import java.awt.Dimension;
-
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-
 
 
 public class View {
@@ -18,12 +15,16 @@ public class View {
         frame.setSize(new Dimension(600, 600));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        pane.addTab("Dio porco", new JPanel());
-        pane.addTab("Dio porco", new JPanel());
-        pane.addTab("Dio porco", new JPanel());
-
-        frame.add(pane);
-
+        showLoginTab();
         frame.setVisible(true);
+    }
+
+    public void showLoginTab() {
+        pane.removeAll();
+        pane.add(new LoginTab(this));
+    }
+
+    public void showUserTabs(final String user) {
+        
     }
 }
