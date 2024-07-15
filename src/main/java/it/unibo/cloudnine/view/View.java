@@ -42,14 +42,14 @@ public class View {
     }
 
     private void setAdminTabs() {
-
+        /* utenti, inventario, tavoli, comande */
     }
 
     private void setCookTabs() {
-        
+        /* tavoli, comande */
     }
 
     private void setWaiterTabs() {
-
+        /* inventario */
     }
 }
