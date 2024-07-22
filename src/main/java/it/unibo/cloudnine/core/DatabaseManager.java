@@ -26,7 +26,7 @@ public class DatabaseManager {
     private Optional<Connection> currentConnection = Optional.empty();
 
     public DatabaseManager() {
-        this.url = "192.168.1.54";
+        this.url = "jdbc:mysql://localhost/cloudnine";
         this.username = "root";
         this.pwd = "";
     }
