@@ -31,14 +31,10 @@ public class View {
     public void showUserTabs(final String user) {
         pane.removeAll();
         switch(UserManagementDAO.getUserType(user)) {
-            case ADMIN:
-                setAdminTabs();
-            case COOK: 
-                setCookTabs();
-            case WAITER:
-                setWaiterTabs();
+            case ADMIN -> setAdminTabs();
+            case COOK -> setCookTabs();
+            case WAITER -> setWaiterTabs();
         }
-
     }
 
     private void setAdminTabs() {
