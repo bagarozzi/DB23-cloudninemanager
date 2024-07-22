@@ -25,7 +25,7 @@ public class UserManagementDAO {
     
     private static final String LOGIN = "SELECT Password FROM account WHERE account.Nome_Utente = ?";
 
-    private static final String GET_USER_TYPE = "SELECT Professione FROM account INNER JOIN Membro_del_Personale ON account.CodFiscale = Membro_del_Personale.CodFiscale";
+    private static final String GET_USER_TYPE = "SELECT Professione FROM account INNER JOIN Membro_del_Personale ON account.CodFiscale = Membro_del_Personale.CodFiscale WHERE account.Nome_Utente = ?";
     
     public static boolean tryLogin(final String user, final String password) {
         try {
