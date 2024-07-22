@@ -7,8 +7,14 @@ import javax.swing.JTabbedPane;
 import it.unibo.cloudnine.dao.UserManagementDAO;
 import it.unibo.cloudnine.view.tabs.AbstractTab;
 import it.unibo.cloudnine.view.tabs.BookingsTab;
+import it.unibo.cloudnine.view.tabs.InventoryTab;
 import it.unibo.cloudnine.view.tabs.LoginTab;
+import it.unibo.cloudnine.view.tabs.OrderTab;
 
+/*
+ * BAGA: Accounts, Earnings, Menu, SingleMenu, Staff, alla fine: SingleOrder
+ * LUCA: Bookings, Inventory, Order (tutti gli ordini), Receipts (Tutte le comande), alla fine: SingleReceipt
+ */
 
 public class View {
 
@@ -42,19 +48,20 @@ public class View {
     public void closeTab(final AbstractTab tab) {
         pane.remove(tab);
     }
-    /* Pagine: ordini (tutti), comande (che apre ordini), inventario, account, membri del personale, ricavi/statistiche
-     * prenotazioni, menu
-    */
+
     private void setAdminTabs() {
         /* tutte */
         pane.add(new BookingsTab(this), "Prenotazioni");
     }
 
     private void setCookTabs() {
-        /* inventario, menù, comande */
+        /* inventario, menù, comande, prenotazioni */
+        pane.add("Inventario", new InventoryTab(this));
+        pane.add("Ordini", new OrderTab(this));
+        /*  */
     }
 
     private void setWaiterTabs() {
-        /* inventario */
+        /* COMANDE, ORDINI, INVENTARIO, PRENOTAZIONI */
     }
 }
