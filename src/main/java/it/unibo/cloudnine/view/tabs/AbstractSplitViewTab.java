@@ -9,9 +9,9 @@ import javax.swing.JSplitPane;
 import javax.swing.ScrollPaneConstants;
 import java.awt.GridLayout;
 
-public abstract class SplitViewTab extends AbstractTab {
+public abstract class AbstractSplitViewTab extends AbstractTab {
 
-    public SplitViewTab(final View view) {
+    public AbstractSplitViewTab(final View view) {
         super(view);
         final JPanel itemsList = new JPanel(new GridLayout(0, 1));
 
