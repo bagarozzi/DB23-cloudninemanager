@@ -6,6 +6,7 @@ import javax.swing.JTabbedPane;
 
 import it.unibo.cloudnine.dao.UserManagementDAO;
 import it.unibo.cloudnine.view.tabs.AbstractTab;
+import it.unibo.cloudnine.view.tabs.AccountsTab;
 import it.unibo.cloudnine.view.tabs.BookingsTab;
 import it.unibo.cloudnine.view.tabs.InventoryTab;
 import it.unibo.cloudnine.view.tabs.LoginTab;
@@ -51,6 +52,7 @@ public class View {
 
     private void setAdminTabs() {
         /* tutte */
+        pane.add(new AccountsTab(this), "Account");
         pane.add(new BookingsTab(this), "Prenotazioni");
     }
 

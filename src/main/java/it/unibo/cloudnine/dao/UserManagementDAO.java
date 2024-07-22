@@ -1,11 +1,13 @@
 package it.unibo.cloudnine.dao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import it.unibo.cloudnine.core.CloudnineManager;
 import it.unibo.cloudnine.core.DatabaseManager;
+import it.unibo.cloudnine.data.Account;
 
 public class UserManagementDAO {
 
@@ -21,7 +23,7 @@ public class UserManagementDAO {
         WAITER
     }
 
-    private static final String ACCOUNTS = "SELECT * FROM account";
+    private static final String ACCOUNTS = "SELECT Nome, Cognome, account.CodFiscale, Nome_Utente, Password FROM account INNER JOIN membro_del_personale ON account.CodFiscale = membro_del_personale.CodFiscale";
     
     private static final String LOGIN = "SELECT Password FROM account WHERE account.Nome_Utente = ?";
 
@@ -54,6 +56,24 @@ public class UserManagementDAO {
             // TODO 
         }
         return null;
+    }
+
+    public static List<Account> getAllAccounts() {
+        final List<Account> resultList = new ArrayList<>();
+        try {
+            manager.openConnection();
+            final List<Map<String, Object>> result = manager.getQuery(ACCOUNTS);
+            result.forEach(row -> resultList.add(new Account(
+                (String)row.get("Nome"),
+                (String)row.get("Cognome"),
+                (String)row.get("CodFiscale"),
+                (String)row.get("Username"),
+                (String)row.get("Password")
+            )));
+        } catch (SQLException e) {
+            // TODO 
+        }
+        return resultList;
     }
 
     public static void addAccount() {
