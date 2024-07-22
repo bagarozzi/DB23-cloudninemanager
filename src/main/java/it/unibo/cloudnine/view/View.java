@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
 import it.unibo.cloudnine.dao.UserManagementDAO;
+import it.unibo.cloudnine.view.tabs.AbstractTab;
+import it.unibo.cloudnine.view.tabs.BookingsTab;
 import it.unibo.cloudnine.view.tabs.LoginTab;
 
 
@@ -36,11 +38,16 @@ public class View {
             case WAITER -> setWaiterTabs();
         }
     }
+
+    public void closeTab(final AbstractTab tab) {
+        pane.remove(tab);
+    }
     /* Pagine: ordini (tutti), comande (che apre ordini), inventario, account, membri del personale, ricavi/statistiche
      * prenotazioni, menu
     */
     private void setAdminTabs() {
         /* tutte */
+        pane.add(new BookingsTab(this), "Prenotazioni");
     }
 
     private void setCookTabs() {
