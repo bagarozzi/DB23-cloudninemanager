@@ -12,8 +12,8 @@
 -- Database Section
 -- ________________ 
 
-create database RELETIONAL;
-use RELETIONAL;
+create database CLOUDNINE;
+use CLOUDNINE;
 
 
 -- Tables Section
