@@ -1,12 +1,10 @@
 package it.unibo.cloudnine.view.tabs;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JList;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -23,16 +21,10 @@ public abstract class AbstractTab extends JPanel {
         this.add(refreshButton, BorderLayout.NORTH);
         this.add(closeButton, BorderLayout.NORTH);
 
-        final JList<JPanel> itemsList = new JList<>();
-        final DefaultListModel<JPanel> listModel = new DefaultListModel<>();
-        for (int i = 0; i < 10; i++) {
-            JPanel jp = new JPanel();
-            jp.add(new JLabel("sdfsdfg"));
-            listModel.add(i, jp);
-        }
-        itemsList.setModel(listModel);
+        final JPanel itemsList = new JPanel(new GridLayout(0, 1));
 
         final JScrollPane scrollpane = new JScrollPane(itemsList, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollpane.setWheelScrollingEnabled(true);
 
         final JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollpane, new JPanel());
         splitPane.setDividerLocation(0.5d);
