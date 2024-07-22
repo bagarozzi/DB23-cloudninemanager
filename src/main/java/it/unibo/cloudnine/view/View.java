@@ -36,13 +36,15 @@ public class View {
             case WAITER -> setWaiterTabs();
         }
     }
-
+    /* Pagine: ordini (tutti), comande (che apre ordini), inventario, account, membri del personale, ricavi/statistiche
+     * prenotazioni, menu
+    */
     private void setAdminTabs() {
-        /* utenti, inventario, tavoli, comande */
+        /* tutte */
     }
 
     private void setCookTabs() {
-        /* tavoli, comande */
+        /* inventario, menù, comande */
     }
 
     private void setWaiterTabs() {
