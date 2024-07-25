@@ -28,6 +28,8 @@ public class UserManagementDAO {
     private static final String LOGIN = "SELECT Password FROM account WHERE account.Nome_Utente = ?";
 
     private static final String GET_USER_TYPE = "SELECT Professione FROM account INNER JOIN Membro_del_Personale ON account.CodFiscale = Membro_del_Personale.CodFiscale WHERE account.Nome_Utente = ?";
+
+    private static final String DELETE_ACCOUNT = "DELETE FROM account WHERE account.CodFiscale = ?";
     
     public static boolean tryLogin(final String user, final String password) {
         try {
@@ -81,7 +83,12 @@ public class UserManagementDAO {
     }
     
     public static void removeAccount(final Account account) {
-        
+        try {
+            manager.openConnection();
+            manager.setQuery(DELETE_ACCOUNT, account.codFisc());
+        } catch (SQLException e) {
+            // TODO 
+        }
     }
 
     private static USER_TYPES getTypeFromQuery(final String queryType) {
