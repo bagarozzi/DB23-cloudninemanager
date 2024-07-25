@@ -67,7 +67,7 @@ public class UserManagementDAO {
                 (String)row.get("Nome"),
                 (String)row.get("Cognome"),
                 (String)row.get("CodFiscale"),
-                (String)row.get("Username"),
+                (String)row.get("Nome_Utente"),
                 (String)row.get("Password")
             )));
         } catch (SQLException e) {
@@ -80,8 +80,8 @@ public class UserManagementDAO {
 
     }
     
-    public static void removeAccount() {
-
+    public static void removeAccount(final Account account) {
+        
     }
 
     private static USER_TYPES getTypeFromQuery(final String queryType) {

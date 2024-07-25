@@ -24,7 +24,7 @@ public class View {
 
     public View() {
         frame.pack();
-        frame.setSize(new Dimension(600, 600));
+        frame.setSize(new Dimension(1000, 800));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.add(pane);
