@@ -3,6 +3,7 @@ package it.unibo.cloudnine.dao;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import it.unibo.cloudnine.core.CloudnineManager;
 import it.unibo.cloudnine.core.DatabaseManager;
@@ -21,6 +22,8 @@ public class UserManagementDAO {
         WAITER
     }
 
+    private static final String BOOKINGS = "SELECT * FROM prenoatazione";
+
     private static final String ACCOUNTS = "SELECT * FROM account";
     
     private static final String LOGIN = "SELECT Password FROM account WHERE account.Nome_Utente = ?";
@@ -38,6 +41,17 @@ public class UserManagementDAO {
             // TODO
         }
         return false;
+    }
+
+    public static List<Map<String, Object>> getTableBookings() {
+        try {
+            manager.openConnection();
+            List<Map<String, Object>> result = manager.getQuery(BOOKINGS);
+            return result;
+        } catch (Exception e) {
+        }
+        System.out.println();
+        return null;
     }
 
     public static USER_TYPES getUserType(final String user) {
