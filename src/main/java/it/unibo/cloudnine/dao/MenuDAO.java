@@ -19,7 +19,7 @@ public class MenuDAO {
         manager = CloudnineManager.getDatabaseManager();
     }
 
-    private static final String ALL_MENUS = "SELECT menu.Nome_Menu as nome, menu.Costo_menu_AYCE as costo, COUNT(proposta.Cod_vivanda) as num FROM menu INNER JOIN proposta ON proposta.Nome_Menu = menu.Nome_Menu GROUP BY menu.Nome_Menu";
+    private static final String ALL_MENUS = "SELECT menu.Nome_Menu, menu.Costo_menu_AYCE, COUNT(proposta.Cod_vivanda) as num FROM menu INNER JOIN proposta ON proposta.Nome_Menu = menu.Nome_Menu GROUP BY menu.Nome_Menu";
 
     public static Set<Menu> getAllMenus() {
         final Set<Menu> menus = new HashSet<>();
@@ -28,9 +28,9 @@ public class MenuDAO {
             List<Map<String, Object>> result = manager.getQuery(ALL_MENUS);
             result.forEach(menu -> {
                 menus.add(new Menu(
-                    (String)menu.get("nome"),
-                    (float)menu.get("costo"),
-                    (int)menu.get("num")
+                    (String)menu.get("Nome_Menu"),
+                    (float)menu.get("Costo_menu_AYCE"),
+                    (long)menu.get("num")
                 ));
             });
         } catch (SQLException e) {
