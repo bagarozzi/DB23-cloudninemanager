@@ -2,6 +2,7 @@ package it.unibo.cloudnine.view.tabs;
 
 import it.unibo.cloudnine.dao.MenuDAO;
 import it.unibo.cloudnine.dao.UserManagementDAO;
+import it.unibo.cloudnine.data.Menu;
 import it.unibo.cloudnine.view.View;
 
 import javax.swing.JButton;
@@ -46,10 +47,10 @@ public class MenuTab extends AbstractSplitViewTab {
             final GridBagConstraints c = new GridBagConstraints();
             c.gridx = 1;
             c.gridy = 0; 
-            element.add(new JButton("Dettagli"), c);
+            element.add(getDetailsButton(menu), c);
             c.gridx = 1;
             c.gridy = 1;
-            element.add(new JButton("Elimina menu\'"), c);
+            element.add(getDeleteButton(menu), c);
             c.gridx = 0;
             c.gridy = 0;
             c.insets = new Insets(0, 0, 0, 20);
@@ -68,6 +69,27 @@ public class MenuTab extends AbstractSplitViewTab {
 
     private void initializeRightPanel() {
         
+    }
+
+    private JButton getModifyButton(final Menu menu) {
+        final JButton button = new JButton("Modifica");
+        button.addActionListener(e -> {
+            refresh();
+        });
+        return button;
+    }
+
+    private JButton getDeleteButton(final Menu menu) {
+        final JButton button = new JButton("Cancella menu");
+        button.addActionListener(e -> {
+            MenuDAO.deleteMenu(menu);
+            refresh();
+        });
+        return button;
+    }
+
+    private JButton getDetailsButton(final Menu menu) {
+        return new JButton("Dettagli");
     }
     
 }
