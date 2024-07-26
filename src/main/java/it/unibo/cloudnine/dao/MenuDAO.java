@@ -42,5 +42,9 @@ public class MenuDAO {
     public static Menu getMenu() {
         return new Menu("sdfsd", 324.23f, 2);
     }
+
+    public static void deleteMenu(final Menu menu) {
+        
+    }
     
 }
