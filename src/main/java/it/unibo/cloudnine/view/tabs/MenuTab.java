@@ -14,6 +14,7 @@ import javax.swing.JComboBox;
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
@@ -24,9 +25,8 @@ public class MenuTab extends AbstractSplitViewTab {
     private final JPanel scrollingPane = new JPanel(new GridLayout(0, 1));
     private final JPanel rightPane = new JPanel();
     
-    private final JTextField username = new JTextField();
-    private final JTextField password = new JTextField();
-    private final JTextField confirmPassword = new JTextField();
+    private final JTextField menuName = new JTextField();
+    private final JTextField menuCost = new JTextField();
     private final Vector<String> comboBoxVector = new Vector<>();
     private final JComboBox<String> comboBox = new JComboBox<>(comboBoxVector);
 
@@ -51,6 +51,9 @@ public class MenuTab extends AbstractSplitViewTab {
             c.gridx = 1;
             c.gridy = 1;
             element.add(getDeleteButton(menu), c);
+            c.gridx = 1;
+            c.gridy = 2;
+            element.add(getModifyButton(menu), c);
             c.gridx = 0;
             c.gridy = 0;
             c.insets = new Insets(0, 0, 0, 20);
@@ -68,13 +71,56 @@ public class MenuTab extends AbstractSplitViewTab {
     }
 
     private void initializeRightPanel() {
-        
+        rightPane.setLayout(new GridBagLayout());
+        final GridBagConstraints c = new GridBagConstraints();
+        c.gridx = 0;
+        c.gridy = 0;
+        rightPane.add(new JLabel("Menu' su cui fare la modifica: "), c);
+        c.gridx = 0;
+        c.gridy = 1;
+        rightPane.add(new JLabel("Nome del menu': "), c);
+        c.gridx = 1;
+        c.gridy = 2;
+        c.ipadx = 40;
+        rightPane.add(menuCost, c);
+        c.gridx = 1;
+        c.gridy = 0;
+        rightPane.add(comboBox, c);
+        c.gridx = 1;
+        c.gridy = 1;
+        rightPane.add(menuName, c);
+        c.gridx = 0;
+        c.gridy = 2;
+        c.ipadx = 0;
+        rightPane.add(new JLabel("Costo del menu': "), c);
+        c.gridx = 0;
+        c.gridy = 4;
+        c.insets = new Insets(70, 20, 70, 0);
+        rightPane.add(getClearFormButton(), c);
+        c.gridx = 1;
+        c.gridy = 4;
+        rightPane.add(getConfirmFormButton(), c);
+    }
+
+    private JButton getConfirmFormButton() {
+        return new JButton("Conferma modifiche");
+    }
+
+    private JButton getClearFormButton() {
+        final JButton button = new JButton("Pulisci form");
+        button.addActionListener(e -> {
+            menuName.setText("");
+            menuCost.setText("");
+        });
+        return button;
     }
 
     private JButton getModifyButton(final Menu menu) {
         final JButton button = new JButton("Modifica");
         button.addActionListener(e -> {
-            refresh();
+            comboBox.setSelectedItem(menu.nome());
+            menuName.setText(menu.nome());
+            menuCost.setText(Float.toString(menu.costo()));
         });
         return button;
     }
