@@ -10,6 +10,7 @@ import it.unibo.cloudnine.view.tabs.AccountsTab;
 import it.unibo.cloudnine.view.tabs.BookingsTab;
 import it.unibo.cloudnine.view.tabs.InventoryTab;
 import it.unibo.cloudnine.view.tabs.LoginTab;
+import it.unibo.cloudnine.view.tabs.MenuTab;
 import it.unibo.cloudnine.view.tabs.OrderTab;
 
 /*
@@ -54,6 +55,7 @@ public class View {
         /* tutte */
         pane.add(new AccountsTab(this), "Account");
         pane.add(new BookingsTab(this), "Prenotazioni");
+        pane.add(new MenuTab(this), "Menus");
     }
 
     private void setCookTabs() {

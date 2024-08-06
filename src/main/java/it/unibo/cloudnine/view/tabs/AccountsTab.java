@@ -1,6 +1,5 @@
 package it.unibo.cloudnine.view.tabs;
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.GridBagLayout;
@@ -121,7 +120,8 @@ public final class AccountsTab extends AbstractSplitViewTab {
     private JButton getChangePasswordButton(final Account account) {
         final JButton button = new JButton("Cambia password");
         button.addActionListener(e -> {
-            UserManagementDAO.removeAccount(account);
+            this.username.setText(account.username());
+            this.comboBox.setSelectedItem(account.codFisc());
             refresh();
         });
         return button;
