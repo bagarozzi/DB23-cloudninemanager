@@ -7,10 +7,12 @@ import it.unibo.cloudnine.data.Food;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JButton;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 
 import java.util.Set;
 import java.util.stream.Stream;
@@ -47,6 +49,9 @@ public class SingleMenuTab extends AbstractSplitViewTab {
             c.gridx = 0;
             c.gridy = 1;
             element.add(new JLabel("Prezzo: " + food.price()), c);
+            c.gridx = 0;
+            c.gridy = 2;
+            element.add(getRemoveFoodButton(food, menu), c);
             System.out.println(food.name());
             scrollingPane.add(element);
         });
@@ -68,6 +73,11 @@ public class SingleMenuTab extends AbstractSplitViewTab {
             
         })
         .toList();
+    }
+
+    private JButton getRemoveFoodButton(final Food food, final Menu menu) {
+        final JButton button = new JButton("Rimuovi dal menu'");
+        return button;
     }
     
 }
