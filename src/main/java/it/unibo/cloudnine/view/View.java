@@ -51,7 +51,7 @@ public class View {
         pane.remove(tab);
     }
 
-    public void openTab(final AbstractTab tab) {
+    public void openTab(final AbstractTab tab, final String title) {
         pane.add(tab);
     }
 
