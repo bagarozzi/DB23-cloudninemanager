@@ -2,6 +2,7 @@ package it.unibo.cloudnine.dao;
 
 import it.unibo.cloudnine.core.CloudnineManager;
 import it.unibo.cloudnine.core.DatabaseManager;
+import it.unibo.cloudnine.data.Food;
 import it.unibo.cloudnine.data.Menu;
 
 import java.util.Set;
@@ -20,6 +21,8 @@ public class MenuDAO {
     }
 
     private static final String ALL_MENUS = "SELECT menu.Nome_Menu, menu.Costo_menu_AYCE, COUNT(proposta.Cod_vivanda) as num FROM menu INNER JOIN proposta ON proposta.Nome_Menu = menu.Nome_Menu GROUP BY menu.Nome_Menu";
+
+    private static final String ALL_FOODS = "SELECT proposta.Cod_vivanda, Nome_Vivanda, Nome_Categoria, tipologia, prezzo FROM proposta INNER JOIN vivanda ON proposta.Cod_vivanda = vivanda.Cod_vivanda WHERE proposta.Nome_Menu = ?";
 
     public static Set<Menu> getAllMenus() {
         final Set<Menu> menus = new HashSet<>();
@@ -45,6 +48,26 @@ public class MenuDAO {
 
     public static void deleteMenu(final Menu menu) {
         
+    }
+
+    public static Set<Food> getAllFoods(final Menu menu) {
+        final Set<Food> foods = new HashSet<>();
+        try {
+            manager.openConnection();
+            List<Map<String, Object>> result = manager.getQuery(ALL_FOODS);
+            result.forEach(food -> {
+                foods.add(new Food(
+                    (int)food.get("Cod_vivanda"),
+                    (String)food.get("Nome_vivanda"),
+                    (String)food.get("Nome_categoria"),
+                    (String)food.get("tipologia"),
+                    (float)food.get("prezzo")
+                ));
+            });
+        } catch (SQLException e) {
+            // TODO 
+        }
+        return foods;
     }
     
 }
