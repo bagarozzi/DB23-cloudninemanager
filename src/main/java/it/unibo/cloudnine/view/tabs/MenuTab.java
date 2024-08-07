@@ -140,7 +140,7 @@ public class MenuTab extends AbstractSplitViewTab {
     private JButton getDetailsButton(final Menu menu) {
         final JButton button = new JButton("Detttagli");
         button.addActionListener(e -> {
-            view.openTab(new SingleMenuTab(view, menu), "Dettagli di " + menu.nome());
+            view.openTab(new SingleMenuTab(view, menu), "Dettagli di \"" + menu.nome() + "\"");
         });
         return button;
     }

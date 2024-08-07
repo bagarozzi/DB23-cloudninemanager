@@ -52,7 +52,7 @@ public class View {
     }
 
     public void openTab(final AbstractTab tab, final String title) {
-        pane.add(tab);
+        pane.add(tab, title);
     }
 
     private void setAdminTabs() {
