@@ -68,5 +68,9 @@ public class MenuDAO {
         }
         return foods;
     }
+
+    public static void deleteFromMenu(final Menu menu, final Food food) {
+        
+    }
     
 }
