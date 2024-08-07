@@ -6,7 +6,6 @@ import it.unibo.cloudnine.data.Food;
 import it.unibo.cloudnine.data.Menu;
 
 import java.util.Set;
-
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.List;
@@ -54,12 +53,12 @@ public class MenuDAO {
         final Set<Food> foods = new HashSet<>();
         try {
             manager.openConnection();
-            List<Map<String, Object>> result = manager.getQuery(ALL_FOODS);
+            List<Map<String, Object>> result = manager.getQuery(ALL_FOODS, menu.nome());
             result.forEach(food -> {
                 foods.add(new Food(
                     (int)food.get("Cod_vivanda"),
-                    (String)food.get("Nome_vivanda"),
-                    (String)food.get("Nome_categoria"),
+                    (String)food.get("Nome_Vivanda"),
+                    (String)food.get("Nome_Categoria"),
                     (String)food.get("tipologia"),
                     (float)food.get("prezzo")
                 ));
