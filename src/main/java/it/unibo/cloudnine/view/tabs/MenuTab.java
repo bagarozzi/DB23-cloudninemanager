@@ -30,8 +30,11 @@ public class MenuTab extends AbstractSplitViewTab {
     private final Vector<String> comboBoxVector = new Vector<>();
     private final JComboBox<String> comboBox = new JComboBox<>(comboBoxVector);
 
+    private final View view;
+
     public MenuTab(View view) {
         super(view);
+        this.view = view;
         initializeRightPanel();
         setLeftPanel(scrollingPane);
         setRightPanel(rightPane);
@@ -135,7 +138,11 @@ public class MenuTab extends AbstractSplitViewTab {
     }
 
     private JButton getDetailsButton(final Menu menu) {
-        return new JButton("Dettagli");
+        final JButton button = new JButton("Detttagli");
+        button.addActionListener(e -> {
+            view.openTab(new SingleMenuTab(view, menu), "Dettagli di " + menu.nome());
+        });
+        return button;
     }
     
 }
