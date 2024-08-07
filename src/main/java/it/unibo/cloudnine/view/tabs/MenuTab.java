@@ -1,7 +1,6 @@
 package it.unibo.cloudnine.view.tabs;
 
 import it.unibo.cloudnine.dao.MenuDAO;
-import it.unibo.cloudnine.dao.UserManagementDAO;
 import it.unibo.cloudnine.data.Menu;
 import it.unibo.cloudnine.view.View;
 
@@ -14,7 +13,6 @@ import javax.swing.JComboBox;
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
