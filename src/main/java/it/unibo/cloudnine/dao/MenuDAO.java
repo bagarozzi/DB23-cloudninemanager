@@ -23,6 +23,8 @@ public class MenuDAO {
 
     private static final String ALL_FOODS = "SELECT proposta.Cod_vivanda, Nome_Vivanda, Nome_Categoria, tipologia, prezzo FROM proposta INNER JOIN vivanda ON proposta.Cod_vivanda = vivanda.Cod_vivanda WHERE proposta.Nome_Menu = ?";
 
+    private static final String DELETE_FOOD_MENU = "DELETE FROM proposta WHERE proposta.Nome_Menu = ? AND proposta.Cod_vivanda = ?";
+
     public static Set<Menu> getAllMenus() {
         final Set<Menu> menus = new HashSet<>();
         try {
@@ -70,7 +72,12 @@ public class MenuDAO {
     }
 
     public static void deleteFromMenu(final Menu menu, final Food food) {
-        
+        try {
+            manager.openConnection();
+            manager.setQuery(DELETE_FOOD_MENU, menu.nome(), food.codice());
+        } catch (SQLException e) {
+            // TODO
+        }
     }
     
 }
