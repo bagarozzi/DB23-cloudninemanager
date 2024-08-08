@@ -77,6 +77,9 @@ public class SingleMenuTab extends AbstractSplitViewTab {
 
     private JButton getRemoveFoodButton(final Food food, final Menu menu) {
         final JButton button = new JButton("Rimuovi dal menu'");
+        button.addActionListener(e -> {
+            MenuDAO.deleteFromMenu(menu, food);
+        });
         return button;
     }
     
