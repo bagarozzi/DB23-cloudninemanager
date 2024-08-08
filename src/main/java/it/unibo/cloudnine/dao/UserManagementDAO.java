@@ -24,8 +24,6 @@ public class UserManagementDAO {
         WAITER
     }
 
-    private static final String BOOKINGS = "SELECT * FROM prenoatazione";
-
     private static final String ACCOUNTS = "SELECT Nome, Cognome, account.CodFiscale, Nome_Utente, Password FROM account INNER JOIN membro_del_personale ON account.CodFiscale = membro_del_personale.CodFiscale";
     
     private static final String LOGIN = "SELECT Password FROM account WHERE account.Nome_Utente = ?";
@@ -45,17 +43,6 @@ public class UserManagementDAO {
             // TODO
         }
         return false;
-    }
-
-    public static List<Map<String, Object>> getTableBookings() {
-        try {
-            manager.openConnection();
-            List<Map<String, Object>> result = manager.getQuery(BOOKINGS);
-            return result;
-        } catch (Exception e) {
-        }
-        System.out.println();
-        return null;
     }
 
     public static USER_TYPES getUserType(final String user) {

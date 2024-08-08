@@ -57,6 +57,7 @@ public class View {
 
     private void setAdminTabs() {
         /* tutte */
+        System.out.println("anodc");
         pane.add(new AccountsTab(this), "Account");
         pane.add(new BookingsTab(this), "Prenotazioni");
         pane.add(new MenuTab(this), "Menus");
