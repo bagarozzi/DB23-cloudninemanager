@@ -25,6 +25,8 @@ public class MenuDAO {
 
     private static final String DELETE_FOOD_MENU = "DELETE FROM proposta WHERE proposta.Nome_Menu = ? AND proposta.Cod_vivanda = ?";
 
+    private static final String ADD_FOOD_MENU = "INSERT INTO `proposta` (`Nome_Menu`, `Cod_vivanda`) VALUES (?, ?);";
+
     public static Set<Menu> getAllMenus() {
         final Set<Menu> menus = new HashSet<>();
         try {
@@ -75,6 +77,15 @@ public class MenuDAO {
         try {
             manager.openConnection();
             manager.setQuery(DELETE_FOOD_MENU, menu.nome(), food.codice());
+        } catch (SQLException e) {
+            // TODO
+        }
+    }
+
+    public static void addToMeu(final Menu menu, final Food food) {
+        try {
+            manager.openConnection();
+            manager.setQuery(ADD_FOOD_MENU, menu.nome(), food.codice());
         } catch (SQLException e) {
             // TODO
         }
