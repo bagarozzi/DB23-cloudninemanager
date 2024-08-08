@@ -19,7 +19,7 @@ public class MenuDAO {
         manager = CloudnineManager.getDatabaseManager();
     }
 
-    private static final String ALL_MENUS = "SELECT menu.Nome_Menu, menu.Costo_menu_AYCE, COUNT(proposta.Cod_vivanda) as num FROM menu INNER JOIN proposta ON proposta.Nome_Menu = menu.Nome_Menu GROUP BY menu.Nome_Menu";
+    private static final String ALL_MENUS = "SELECT menu.Nome_Menu, menu.Costo_menu_AYCE, COUNT(proposta.Cod_vivanda) as num FROM menu LEFT JOIN proposta ON proposta.Nome_Menu = menu.Nome_Menu GROUP BY menu.Nome_Menu";
 
     private static final String ALL_FOODS = "SELECT proposta.Cod_vivanda, Nome_Vivanda, Nome_Categoria, tipologia, prezzo FROM proposta INNER JOIN vivanda ON proposta.Cod_vivanda = vivanda.Cod_vivanda WHERE proposta.Nome_Menu = ?";
 
