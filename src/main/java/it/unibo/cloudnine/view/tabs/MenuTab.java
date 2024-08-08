@@ -1,7 +1,6 @@
 package it.unibo.cloudnine.view.tabs;
 
 import it.unibo.cloudnine.dao.MenuDAO;
-import it.unibo.cloudnine.dao.UserManagementDAO;
 import it.unibo.cloudnine.data.Menu;
 import it.unibo.cloudnine.view.View;
 
@@ -14,7 +13,6 @@ import javax.swing.JComboBox;
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
@@ -30,8 +28,11 @@ public class MenuTab extends AbstractSplitViewTab {
     private final Vector<String> comboBoxVector = new Vector<>();
     private final JComboBox<String> comboBox = new JComboBox<>(comboBoxVector);
 
+    private final View view;
+
     public MenuTab(View view) {
         super(view);
+        this.view = view;
         initializeRightPanel();
         setLeftPanel(scrollingPane);
         setRightPanel(rightPane);
@@ -135,7 +136,11 @@ public class MenuTab extends AbstractSplitViewTab {
     }
 
     private JButton getDetailsButton(final Menu menu) {
-        return new JButton("Dettagli");
+        final JButton button = new JButton("Detttagli");
+        button.addActionListener(e -> {
+            view.openTab(new SingleMenuTab(view, menu), "Dettagli di \"" + menu.nome() + "\"");
+        });
+        return button;
     }
     
 }

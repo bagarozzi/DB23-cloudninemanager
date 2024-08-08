@@ -14,7 +14,7 @@ import it.unibo.cloudnine.view.tabs.MenuTab;
 import it.unibo.cloudnine.view.tabs.OrderTab;
 
 /*
- * BAGA: Accounts, Earnings, Menu, SingleMenu, Staff, alla fine: SingleOrder
+ * BAGA: Accounts(done), Earnings, Menu(done), SingleMenu, Staff, alla fine: SingleOrder
  * LUCA: Bookings, Inventory, Order (tutti gli ordini), Receipts (Tutte le comande), alla fine: SingleReceipt
  */
 
@@ -49,6 +49,10 @@ public class View {
 
     public void closeTab(final AbstractTab tab) {
         pane.remove(tab);
+    }
+
+    public void openTab(final AbstractTab tab, final String title) {
+        pane.add(tab, title);
     }
 
     private void setAdminTabs() {
