@@ -8,6 +8,8 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
+import org.checkerframework.checker.units.qual.s;
+
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.Vector;
@@ -30,6 +32,7 @@ public class FoodTab extends AbstractSplitViewTab {
     
     private final JTextField foodName = new JTextField();
     private final JTextField foodCost = new JTextField();
+    private final JTextField categoryName = new JTextField();
 
     private final Vector<Food> comboBoxVector = new Vector<>();
     private final JComboBox<Food> comboBox = new JComboBox<>(comboBoxVector);
@@ -39,6 +42,8 @@ public class FoodTab extends AbstractSplitViewTab {
 
     private final Vector<String> categoryVector = new Vector<>();
     private final JComboBox<String> categoryComboBox = new JComboBox<>(categoryVector);
+
+    private final JComboBox<String> categoryFormComboBox = new JComboBox<>(categoryVector);
 
     private final JButton newFoodButton = new JButton("Nuovo piatto");
     private final JButton confirmButton = new JButton("Conferma modifica");
@@ -173,7 +178,31 @@ public class FoodTab extends AbstractSplitViewTab {
         c.gridx = 0;
         c.gridy = 5;
         c.gridwidth = 2;
+        c.insets = new Insets(0, 0, 50, 0);
         rightPane.add(confirmButton, c);
+        // Form categoria
+        c.gridx = 0; 
+        c.gridy = 6;
+        c.insets = new Insets(20, 0, 0, 0);
+        rightPane.add(new JLabel("Categoria:"), c);
+        c.gridx = 1;
+        c.gridy = 6;
+        c.insets = new Insets(0, 0, 0, 0);
+        rightPane.add(categoryFormComboBox, c);
+        c.gridx = 0;
+        c.gridy = 7;
+        c.gridwidth = 2;
+        rightPane.add(getConfirmDeleteCategoryButton(), c);
+        c.gridx = 2;
+        c.gridy = 6;
+        c.insets = new Insets(0, 50, 0, 0);
+        rightPane.add(new JLabel("Nuova categoria: "), c);
+        c.gridx = 3;
+        c.gridy = 6;
+        rightPane.add(categoryName, c);
+        c.gridx = 2;
+        c.gridy = 7;
+        rightPane.add(getAddCategoryButton(), c);
     }
 
     private JButton getModifyButton(final Food food) {
@@ -194,6 +223,25 @@ public class FoodTab extends AbstractSplitViewTab {
         button.addActionListener(e -> {
             FoodDAO.removeFood(food);
             refresh();
+        });
+        return button;
+    }
+
+    private JButton getConfirmDeleteCategoryButton() {
+        final JButton button = new JButton("Cancella categoria");
+        button.addActionListener(e -> {
+            FoodDAO.deleteCategory(categoryVector.get(categoryFormComboBox.getSelectedIndex()));
+            refresh();
+        });
+        return button;
+    }
+
+    private JButton getAddCategoryButton() {
+        final JButton button = new JButton("Aggiungi categoria");
+        button.addActionListener(e -> {
+            FoodDAO.addCategory(categoryName.getText());
+            refresh();
+            categoryName.setText("");
         });
         return button;
     }
