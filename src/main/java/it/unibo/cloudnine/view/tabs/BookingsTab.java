@@ -36,8 +36,8 @@ public class BookingsTab extends AbstractSplitViewTab {
     public BookingsTab(final View view) {
         super(view);
         initializeRightPanel();
-        refresh();
         super.setRightPanel(rightPanel);
+        refresh();
         super.setLeftPanel(leftPane);
     }
 
@@ -122,23 +122,33 @@ public class BookingsTab extends AbstractSplitViewTab {
                 final GridBagConstraints c = new GridBagConstraints();
                 c.gridx = 0;
                 c.gridy = 0;
-                jp.add(new JLabel("data" + ": " + r.data().toString()), c);
+                jp.add(new JLabel("Data" + ": " + r.data().toString()), c);
                 c.gridx = 0;
                 c.gridy = 1;
-                jp.add(new JLabel("ora" + ": " + r.ora().toString() + System.lineSeparator()), c);
+                jp.add(new JLabel("Ora" + ": " + r.ora().toString()), c);
                 c.gridx = 0;
                 c.gridy = 2;
-                jp.add(new JLabel("nominativo" + ": " + r.nominativo() + System.lineSeparator()), c);
+                jp.add(new JLabel("Nominativo" + ": " + r.nominativo()), c);
                 c.gridx = 0;
                 c.gridy = 3;
-                jp.add(new JLabel("telefono" + ": " + r.telefono() + System.lineSeparator()), c);
+                jp.add(new JLabel("Telefono" + ": " + r.telefono()), c);
                 c.gridx = 0;
                 c.gridy = 4;
-                jp.add(new JLabel("codFiscale" + ": " + r.codFiscale() + System.lineSeparator()), c);
+                jp.add(new JLabel("CodFiscale" + ": " + r.codFiscale()), c);
                 c.gridx = 1;
                 c.gridy = 2;
-                jp.add(new JButton("cancella"), c);
+                jp.add(getCancelBUtton(r), c);
+                leftPane.add(jp);
             });
+    }
+
+    private JButton getCancelBUtton(Booking r) {
+        JButton cancel = new JButton("Cancella");
+        cancel.addActionListener(e -> {
+            BookingsDAO.cancelBooking(r.data(), r.ora(), r.telefono());
+            refresh();
+        });
+        return cancel;
     }
 
 

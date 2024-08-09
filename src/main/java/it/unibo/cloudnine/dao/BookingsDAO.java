@@ -11,6 +11,8 @@ import it.unibo.cloudnine.core.DatabaseManager;
 public class BookingsDAO {
     private static final String BOOKINGS = "SELECT * FROM prenoatazione";
     private static final String CREATE_BOOKING = "INSERT INTO prenoatazione (Data, Ora, Nominativo, Coperti, Telefono, CodFiscale) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String CANCEL_BOOKING = "DELETE FROM prenoatazione WHERE Data=? AND Ora=? AND Telefono=?" + //
+                "";
 
     private static final DatabaseManager manager;
 
@@ -29,12 +31,19 @@ public class BookingsDAO {
         return null;
     }
 
+    public static void cancelBooking(Date data, Time ora, String telefono) {
+        try {
+            manager.openConnection();
+            manager.setQuery(CANCEL_BOOKING, data, ora, telefono);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+
     public static void insertBooking(Date data, Time ora, String nominativo, Integer coperti, String telefono, String codFisc) {
         try {
             manager.openConnection();
-            System.out.println(data + " " + ora);
             manager.setQuery(CREATE_BOOKING, data, ora, nominativo, coperti, telefono, codFisc);
-            System.out.println("pog");
         } catch (Exception e) {
             // TODO: handle exception
         }
