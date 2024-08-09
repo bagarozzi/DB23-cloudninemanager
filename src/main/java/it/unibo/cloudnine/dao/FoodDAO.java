@@ -28,6 +28,10 @@ public class FoodDAO {
 
     private static final String ADD_FOOD = "INSERT INTO `vivanda` (`Cod_vivanda`, `prezzo`, `tipologia`, `Nome_Vivanda`, `Nome_Categoria`) VALUES (NULL, ?, ?, ?, ?);";
 
+    private static final String ADD_CATEGORY = "INSERT INTO `categoria` (`Nome_Categoria`) VALUES ('?')";
+
+    private static final String DELETE_CATEGORY = "DELETE FROM categoria WHERE categoria.Nome_Categoria = ?";
+
     public static Set<Food> getAllFoods() {
         final Set<Food> foods = new HashSet<>();
         try {
@@ -84,6 +88,24 @@ public class FoodDAO {
         try {
             manager.openConnection();
             manager.setQuery(REMOVE_FOOD, food.codice());
+        } catch (SQLException e) {
+            // TODO  
+        }
+    }
+
+    public static void addCategory(final String category) {
+        try {
+            manager.openConnection();
+            manager.setQuery(ADD_CATEGORY, category);
+        } catch (SQLException e) {
+            // TODO  
+        }
+    }
+
+    public static void deleteCategory(final String category) {
+        try {
+            manager.openConnection();
+            manager.setQuery(DELETE_CATEGORY, category);
         } catch (SQLException e) {
             // TODO  
         }
