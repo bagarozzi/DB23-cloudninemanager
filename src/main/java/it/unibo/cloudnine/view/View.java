@@ -63,6 +63,7 @@ public class View {
         pane.add(new BookingsTab(this), "Prenotazioni");
         pane.add(new MenuTab(this), "Menus");
         pane.add(new FoodTab(this), "Vivande");
+        pane.add(new InventoryTab(this), "inventario");
     }
 
     private void setCookTabs() {
