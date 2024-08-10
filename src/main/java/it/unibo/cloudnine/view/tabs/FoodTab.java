@@ -10,6 +10,8 @@ import javax.swing.border.LineBorder;
 
 import org.checkerframework.checker.units.qual.s;
 
+import com.formdev.flatlaf.util.SystemInfo;
+
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.Vector;
@@ -86,14 +88,11 @@ public class FoodTab extends AbstractSplitViewTab {
                     foodTypeVector.get(typeComboBox.getSelectedIndex()),
                     Float.parseFloat(foodCost.getText())
                 ));
-                System.out.println(new Food(
-                    comboBoxVector.get(comboBox.getSelectedIndex()).codice(),
-                    foodName.getText(),
-                    categoryVector.get(categoryComboBox.getSelectedIndex()),
-                    foodTypeVector.get(typeComboBox.getSelectedIndex()),
-                    Float.parseFloat(foodCost.getText())
-                ));
             }
+            typeComboBox.removeAllItems();
+            categoryComboBox.removeAllItems();
+            foodName.setText("");
+            foodCost.setText("");
             refresh();
         });
 
@@ -105,6 +104,8 @@ public class FoodTab extends AbstractSplitViewTab {
 
     @Override
     void refresh() {
+        comboBox.removeAllItems();
+        categoryComboBox.removeAllItems();
         comboBoxVector.clear();
         categoryVector.clear();
         scrollingPane.removeAll();
@@ -187,7 +188,7 @@ public class FoodTab extends AbstractSplitViewTab {
         rightPane.add(new JLabel("Categoria:"), c);
         c.gridx = 1;
         c.gridy = 6;
-        c.insets = new Insets(0, 0, 0, 0);
+        c.insets = new Insets(20, 0, 0, 0);
         rightPane.add(categoryFormComboBox, c);
         c.gridx = 0;
         c.gridy = 7;
@@ -195,7 +196,7 @@ public class FoodTab extends AbstractSplitViewTab {
         rightPane.add(getConfirmDeleteCategoryButton(), c);
         c.gridx = 2;
         c.gridy = 6;
-        c.insets = new Insets(0, 50, 0, 0);
+        c.insets = new Insets(20, 50, 0, 0);
         rightPane.add(new JLabel("Nuova categoria: "), c);
         c.gridx = 3;
         c.gridy = 6;
