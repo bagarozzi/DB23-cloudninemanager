@@ -20,6 +20,18 @@ public class FoodDAO {
 
     private static final String ALL_FOODS = "SELECT * FROM vivanda";
 
+    private static final String ALL_CATEGORIES = "SELECT * FROM categoria";
+
+    private static final String REMOVE_FOOD = "DELETE FROM vivanda WHERE vivanda.Cod_vivanda = ?";
+
+    private static final String UPDATE_FOOD = "UPDATE vivanda SET Nome_Vivanda = ?, prezzo = ?, tipologia = ?, Nome_Categoria = ? WHERE vivanda.Cod_vivanda = ?";
+
+    private static final String ADD_FOOD = "INSERT INTO `vivanda` (`Cod_vivanda`, `prezzo`, `tipologia`, `Nome_Vivanda`, `Nome_Categoria`) VALUES (NULL, ?, ?, ?, ?);";
+
+    private static final String ADD_CATEGORY = "INSERT INTO `categoria` (`Nome_Categoria`) VALUES (?)";
+
+    private static final String DELETE_CATEGORY = "DELETE FROM categoria WHERE categoria.Nome_Categoria = ?";
+
     public static Set<Food> getAllFoods() {
         final Set<Food> foods = new HashSet<>();
         try {
@@ -38,6 +50,65 @@ public class FoodDAO {
             // TODO  
         }
         return foods;
+    }
+
+    public static Set<String> getAllCategories() {
+        final Set<String> categories = new HashSet<>();
+        try {
+            manager.openConnection();
+            List<Map<String, Object>> result = manager.getQuery(ALL_CATEGORIES);
+            result.forEach(category -> {
+                categories.add((String)category.get("Nome_Categoria"));
+            });
+        } catch (SQLException e) {
+            // TODO  
+        }
+        return categories;
+    }
+
+    public static void updateFood(final Food food) {
+        try {
+            manager.openConnection();
+            manager.setQuery(UPDATE_FOOD, food.name(), food.price(), food.type(), food.category(), food.codice());
+        } catch (SQLException e) {
+            // TODO  
+        }
+    }
+
+    public static void addFood(final Food food) {
+        try {
+            manager.openConnection();
+            manager.setQuery(ADD_FOOD, food.price(), food.type(), food.name(), food.category());
+        } catch (SQLException e) {
+            // TODO  
+        }
+    }
+
+    public static void removeFood(final Food food) {
+        try {
+            manager.openConnection();
+            manager.setQuery(REMOVE_FOOD, food.codice());
+        } catch (SQLException e) {
+            // TODO  
+        }
+    }
+
+    public static void addCategory(final String category) {
+        try {
+            manager.openConnection();
+            manager.setQuery(ADD_CATEGORY, category);
+        } catch (SQLException e) {
+            // TODO  
+        }
+    }
+
+    public static void deleteCategory(final String category) {
+        try {
+            manager.openConnection();
+            manager.setQuery(DELETE_CATEGORY, category);
+        } catch (SQLException e) {
+            // TODO  
+        }
     }
     
 }

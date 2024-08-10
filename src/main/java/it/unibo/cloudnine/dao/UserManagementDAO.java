@@ -31,6 +31,12 @@ public class UserManagementDAO {
     private static final String GET_USER_TYPE = "SELECT Professione FROM account INNER JOIN Membro_del_Personale ON account.CodFiscale = Membro_del_Personale.CodFiscale WHERE account.Nome_Utente = ?";
 
     private static final String DELETE_ACCOUNT = "DELETE FROM account WHERE account.CodFiscale = ?";
+
+    private final static String ADD_ACCOUNT = "INSERT INTO `account` (`Password`, `Nome_Utente`, `CodFiscale`) VALUES (?, ?, ?)";
+
+    private final static String MODIFY_ACCOUNT = "UPDATE `account` SET `Nome_Utente` = ?, `Password` = ? WHERE account.CodFiscale = ?";
+
+    private static final String ALL_CODFISC = "SELECT CodFiscale FROM membro_del_personale";
     
     public static boolean tryLogin(final String user, final String password) {
         try {
@@ -79,8 +85,22 @@ public class UserManagementDAO {
         return resultList;
     }
 
-    public static void addAccount() {
+    public static void addAccount(final Account account) {
+        try {
+            manager.openConnection();
+            manager.setQuery(ADD_ACCOUNT, account.password(), account.username(), account.codFisc());
+        } catch (SQLException e) {
+            // TODO 
+        }
+    }
 
+    public static void modifyAccount(final String username, final String password, final String codFisc) {
+        try {
+            manager.openConnection();
+            manager.setQuery(MODIFY_ACCOUNT, username, password, codFisc);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
     
     public static void removeAccount(final Account account) {
@@ -90,6 +110,18 @@ public class UserManagementDAO {
         } catch (SQLException e) {
             // TODO 
         }
+    }
+
+    public static List<String> getAllFiscalCodes() {
+        final List<String> fiscalCodes = new ArrayList<>();
+        try {
+            manager.openConnection();
+            final List<Map<String, Object>> result = manager.getQuery(ALL_CODFISC);
+            result.forEach(row -> fiscalCodes.add((String)row.get("CodFiscale")));
+        } catch (SQLException e) {
+            // TODO 
+        }
+        return fiscalCodes;
     }
 
     private static USER_TYPES getTypeFromQuery(final String queryType) {

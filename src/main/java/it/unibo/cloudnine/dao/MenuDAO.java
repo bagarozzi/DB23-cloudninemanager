@@ -27,6 +27,12 @@ public class MenuDAO {
 
     private static final String ADD_FOOD_MENU = "INSERT INTO `proposta` (`Nome_Menu`, `Cod_vivanda`) VALUES (?, ?);";
 
+    private static final String ADD_MENU = "INSERT INTO `menu` (`Nome_Menu`, `Costo_menu_AYCE`) VALUES (?, ?)";
+
+    private static final String DELETE_MENU = "DELETE FROM menu WHERE menu.Nome_Menu = ?";
+
+    private static final String MODIFY_MENU = "UPDATE `menu` SET `Nome_Menu` = ?, `Costo_menu_AYCE` = ? WHERE `menu`.`Nome_Menu` = ?";
+
     public static Set<Menu> getAllMenus() {
         final Set<Menu> menus = new HashSet<>();
         try {
@@ -49,8 +55,31 @@ public class MenuDAO {
         return new Menu("sdfsd", 324.23f, 2);
     }
 
+    public static void addMenu(final Menu menu) {
+        try {
+            manager.openConnection();
+            manager.setQuery(ADD_MENU, menu.nome(), menu.costo());
+        } catch (SQLException e) {
+            // TODO
+        }
+    }
+
+    public static void modifyMenu(final Menu menu) {
+        try {
+            manager.openConnection();
+            manager.setQuery(MODIFY_MENU, menu.nome(), menu.costo(), menu.nome());
+        } catch (SQLException e) {
+            // TODO
+        }
+    }
+
     public static void deleteMenu(final Menu menu) {
-        
+        try {
+            manager.openConnection();
+            manager.setQuery(DELETE_MENU, menu.nome());
+        } catch (SQLException e) {
+            // TODO
+        }
     }
 
     public static Set<Food> getAllFoods(final Menu menu) {
