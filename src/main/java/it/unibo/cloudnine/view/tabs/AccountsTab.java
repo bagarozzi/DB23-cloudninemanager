@@ -137,6 +137,7 @@ public final class AccountsTab extends AbstractSplitViewTab {
                 UserManagementDAO.addAccount(new Account("", "", comboBoxVector.get(comboBox.getSelectedIndex()), username.getText(), password.getText()));
             }
             refresh();
+            clearForm();
         });
         return button;
     }
@@ -144,11 +145,15 @@ public final class AccountsTab extends AbstractSplitViewTab {
     private JButton getClearFormButton() {
         final JButton button = new JButton("Cancella form");
         button.addActionListener(e -> {
-            username.setText("");
-            confirmPassword.setText("");
-            password.setText("");
+            clearForm();
         });
         return button;
+    }
+
+    private void clearForm() {
+        username.setText("");
+        confirmPassword.setText("");
+        password.setText("");
     }
     
 }
