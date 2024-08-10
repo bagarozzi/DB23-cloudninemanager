@@ -5,24 +5,16 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-
-import org.checkerframework.checker.units.qual.s;
-
-import com.formdev.flatlaf.util.SystemInfo;
 
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.Vector;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import it.unibo.cloudnine.dao.FoodDAO;
-import it.unibo.cloudnine.dao.MenuDAO;
 import it.unibo.cloudnine.data.Food;
 import it.unibo.cloudnine.view.View;
 
