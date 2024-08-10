@@ -28,7 +28,12 @@ public class MenuTab extends AbstractSplitViewTab {
     private final Vector<String> comboBoxVector = new Vector<>();
     private final JComboBox<String> comboBox = new JComboBox<>(comboBoxVector);
 
+    private final JButton newMenuButton = new JButton("Nuovo menu");
+    private final JButton confirmButton = new JButton("Conferma modifiche");
+
     private final View view;
+
+    private boolean isFormForNewMenu = false;
 
     public MenuTab(View view) {
         super(view);
@@ -37,6 +42,30 @@ public class MenuTab extends AbstractSplitViewTab {
         setLeftPanel(scrollingPane);
         setRightPanel(rightPane);
         refresh();
+
+        newMenuButton.addActionListener(e -> {
+            if(isFormForNewMenu) {
+                setFormAsExsisting();
+            }
+            else {
+                setFormAsNew();
+            }
+        });
+
+        confirmButton.addActionListener(e -> {
+            if(isFormForNewMenu) {
+                MenuDAO.addMenu(
+                    new Menu(menuName.getText(), Float.parseFloat(menuCost.getText()), 1)
+                );
+            } 
+            else {
+                MenuDAO.modifyMenu(
+                    new Menu(menuName.getText(), Float.parseFloat(menuCost.getText()), 1)
+                );
+            }
+            refresh();
+            clearForm();
+        });
     }
 
     @Override
@@ -80,6 +109,9 @@ public class MenuTab extends AbstractSplitViewTab {
         c.gridx = 0;
         c.gridy = 1;
         rightPane.add(new JLabel("Nome del menu': "), c);
+        c.gridx = 2;
+        c.gridy = 0;
+        rightPane.add(newMenuButton, c);
         c.gridx = 1;
         c.gridy = 2;
         c.ipadx = 40;
@@ -100,18 +132,13 @@ public class MenuTab extends AbstractSplitViewTab {
         rightPane.add(getClearFormButton(), c);
         c.gridx = 1;
         c.gridy = 4;
-        rightPane.add(getConfirmFormButton(), c);
-    }
-
-    private JButton getConfirmFormButton() {
-        return new JButton("Conferma modifiche");
+        rightPane.add(confirmButton, c);
     }
 
     private JButton getClearFormButton() {
         final JButton button = new JButton("Pulisci form");
         button.addActionListener(e -> {
-            menuName.setText("");
-            menuCost.setText("");
+            clearForm();
         });
         return button;
     }
@@ -143,4 +170,27 @@ public class MenuTab extends AbstractSplitViewTab {
         return button;
     }
     
+    private void setFormAsExsisting() {
+        isFormForNewMenu = false;
+        final GridBagConstraints c = new GridBagConstraints();
+        c.gridx = 1;
+        c.gridy = 0;
+        rightPane.add(comboBox, c);
+        newMenuButton.setText("Nuovo menu");
+        confirmButton.setText("Conferma modifiche");
+        this.revalidate();
+    }
+
+    private void setFormAsNew() {
+        isFormForNewMenu = true;
+        rightPane.remove(comboBox);
+        newMenuButton.setText("Menu esistente");
+        confirmButton.setText("Aggiungi nuovo menu");
+        this.revalidate();
+    }
+
+    private void clearForm() {
+        menuName.setText("");
+        menuCost.setText("");
+    }
 }
