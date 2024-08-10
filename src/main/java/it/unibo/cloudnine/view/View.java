@@ -16,7 +16,7 @@ import it.unibo.cloudnine.view.tabs.OrderTab;
 import it.unibo.cloudnine.view.tabs.StaffTab;
 
 /*
- * BAGA: Accounts(done), Earnings, Menu(done), SingleMenu(done), Food(done), Staff, alla fine: SingleOrder
+ * BAGA: Accounts(done), Earnings, Menu(done), SingleMenu(done), Food(done), Staff(done), alla fine: SingleOrder
  * LUCA: Bookings, Inventory, Order (tutti gli ordini), Receipts (Tutte le comande), alla fine: SingleReceipt
  */
 
