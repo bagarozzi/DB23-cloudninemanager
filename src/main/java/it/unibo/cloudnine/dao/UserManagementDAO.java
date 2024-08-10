@@ -97,9 +97,9 @@ public class UserManagementDAO {
     public static void modifyAccount(final String username, final String password, final String codFisc) {
         try {
             manager.openConnection();
-            manager.setQuery(MODIFY_ACCOUNT,  username, password, codFisc);
+            manager.setQuery(MODIFY_ACCOUNT, username, password, codFisc);
         } catch (SQLException e) {
-            // TODO 
+            System.out.println(e);
         }
     }
     
