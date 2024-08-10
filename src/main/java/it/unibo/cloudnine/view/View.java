@@ -8,6 +8,7 @@ import it.unibo.cloudnine.dao.UserManagementDAO;
 import it.unibo.cloudnine.view.tabs.AbstractTab;
 import it.unibo.cloudnine.view.tabs.AccountsTab;
 import it.unibo.cloudnine.view.tabs.BookingsTab;
+import it.unibo.cloudnine.view.tabs.EarningsTab;
 import it.unibo.cloudnine.view.tabs.FoodTab;
 import it.unibo.cloudnine.view.tabs.InventoryTab;
 import it.unibo.cloudnine.view.tabs.LoginTab;
@@ -66,6 +67,7 @@ public class View {
         pane.add(new FoodTab(this), "Vivande");
         pane.add(new InventoryTab(this), "inventario");
         pane.add(new StaffTab(this), "Staff");
+        pane.add(new EarningsTab(this), "Guadagni");
     }
 
     private void setCookTabs() {
