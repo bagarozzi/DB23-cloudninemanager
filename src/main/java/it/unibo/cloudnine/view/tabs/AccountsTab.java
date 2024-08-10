@@ -66,8 +66,8 @@ public final class AccountsTab extends AbstractSplitViewTab {
             element.add(new JLabel("Codice fiscale: " + account.codFisc()), c);
             element.setBorder(new LineBorder(new Color(90, 93, 97), 3));
             scrollingPane.add(element);
-            comboBoxVector.add(account.codFisc());
         });
+        UserManagementDAO.getAllFiscalCodes().forEach(comboBoxVector::add);
     }
 
     private void initializeRightPanel() {
@@ -129,6 +129,15 @@ public final class AccountsTab extends AbstractSplitViewTab {
 
     private JButton getConfirmFormButton() {
         final JButton button = new JButton("Conferma modifiche");
+        button.addActionListener(e -> {
+            if(UserManagementDAO.getAllAccounts().stream().anyMatch(account -> account.username().equals(username.getText()))) {
+                UserManagementDAO.modifyAccount(username.getText(), password.getText(), comboBoxVector.get(comboBox.getSelectedIndex()));
+            }
+            else {
+                UserManagementDAO.addAccount(new Account("", "", comboBoxVector.get(comboBox.getSelectedIndex()), username.getText(), password.getText()));
+            }
+            refresh();
+        });
         return button;
     }
 
