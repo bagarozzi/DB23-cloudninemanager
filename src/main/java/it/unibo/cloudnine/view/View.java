@@ -13,9 +13,10 @@ import it.unibo.cloudnine.view.tabs.InventoryTab;
 import it.unibo.cloudnine.view.tabs.LoginTab;
 import it.unibo.cloudnine.view.tabs.MenuTab;
 import it.unibo.cloudnine.view.tabs.OrderTab;
+import it.unibo.cloudnine.view.tabs.StaffTab;
 
 /*
- * BAGA: Accounts(done), Earnings, Menu(done), SingleMenu(done), Food, Staff, alla fine: SingleOrder
+ * BAGA: Accounts(done), Earnings, Menu(done), SingleMenu(done), Food(done), Staff, alla fine: SingleOrder
  * LUCA: Bookings, Inventory, Order (tutti gli ordini), Receipts (Tutte le comande), alla fine: SingleReceipt
  */
 
@@ -64,6 +65,7 @@ public class View {
         pane.add(new MenuTab(this), "Menus");
         pane.add(new FoodTab(this), "Vivande");
         pane.add(new InventoryTab(this), "inventario");
+        pane.add(new StaffTab(this), "Staff");
     }
 
     private void setCookTabs() {
