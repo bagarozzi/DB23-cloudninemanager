@@ -24,11 +24,11 @@ public class FoodDAO {
 
     private static final String REMOVE_FOOD = "DELETE FROM vivanda WHERE vivanda.Cod_vivanda = ?";
 
-    private static final String UPDATE_FOOD = "UPDATE vivanda SET Nome_Vivanda = '?', prezzo = '?' , tipologia = '?', Nome_Categoria = '?' WHERE vivanda.Cod_vivanda = '?'";
+    private static final String UPDATE_FOOD = "UPDATE vivanda SET Nome_Vivanda = ?, prezzo = ?, tipologia = ?, Nome_Categoria = ? WHERE vivanda.Cod_vivanda = ?";
 
     private static final String ADD_FOOD = "INSERT INTO `vivanda` (`Cod_vivanda`, `prezzo`, `tipologia`, `Nome_Vivanda`, `Nome_Categoria`) VALUES (NULL, ?, ?, ?, ?);";
 
-    private static final String ADD_CATEGORY = "INSERT INTO `categoria` (`Nome_Categoria`) VALUES ('?')";
+    private static final String ADD_CATEGORY = "INSERT INTO `categoria` (`Nome_Categoria`) VALUES (?)";
 
     private static final String DELETE_CATEGORY = "DELETE FROM categoria WHERE categoria.Nome_Categoria = ?";
 
