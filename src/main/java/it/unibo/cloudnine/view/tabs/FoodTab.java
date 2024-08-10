@@ -81,8 +81,6 @@ public class FoodTab extends AbstractSplitViewTab {
                     Float.parseFloat(foodCost.getText())
                 ));
             }
-            typeComboBox.removeAllItems();
-            categoryComboBox.removeAllItems();
             foodName.setText("");
             foodCost.setText("");
             refresh();
