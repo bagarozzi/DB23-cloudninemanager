@@ -20,6 +20,10 @@ public class InventoryDAO {
 
     private static final String INSERT_RAW = "INSERT INTO `materia_prima` (`Data_scadenza`, `Nome_Ingrediente`, `Quantita`, `Data_d_acquisto`) VALUES (?, ?, ?, ?)";
 
+    private static final String GET_EXPIRED = "SELECT * FROM Materia_Prima AS M WHERE M.Data_scadenza < NOW();";
+
+    private static final String GET_CRITIC = "SELECT I.Nome_Ingrediente, Quantita_tot FROM Ingrediente AS I JOIN (SELECT M.Nome_Ingrediente, SUM(M.Quantita) as Quantita_tot FROM Materia_Prima AS M GROUP BY M.Nome_Ingrediente) AS M ON I.Nome_Ingrediente = M.Nome_Ingrediente WHERE I.Nome_Ingrediente = M.Nome_Ingrediente\r\n AND Quantita_tot < I.Soglia_critica;";
+
     private static final DatabaseManager manager;
 
     static {
@@ -56,6 +60,26 @@ public class InventoryDAO {
         try {
             manager.openConnection();
             List<Map<String, Object>> result = manager.getQuery(ROW_MATERIAL, name);
+            return result;
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public static List<Map<String, Object>> getExpired() {
+        try {
+            manager.openConnection();
+            List<Map<String, Object>> result = manager.getQuery(GET_EXPIRED);
+            return result;
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public static List<Map<String, Object>> getCritic() {
+        try {
+            manager.openConnection();
+            List<Map<String, Object>> result = manager.getQuery(GET_CRITIC);
             return result;
         } catch (Exception e) {
         }

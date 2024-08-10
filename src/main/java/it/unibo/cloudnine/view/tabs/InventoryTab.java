@@ -24,6 +24,7 @@ public class InventoryTab extends AbstractSplitViewTab {
     private JPanel rightPanel;
     private JPanel ingredientPane = new JPanel(new GridLayout(0, 1));
     private JPanel rawPane = new JPanel(new GridLayout(0, 1));
+    private JPanel criticPane = new JPanel(new GridLayout(0, 1));
     private JTextField sogliaCritica = new JTextField();
     private JTextField costoAlKg = new JTextField();
     private JTextField nomeIngrediente = new JTextField();
@@ -36,6 +37,8 @@ public class InventoryTab extends AbstractSplitViewTab {
     public record Ingredient(float sogliaCritica, float costoAlKilo, String nome) { 
     }
 
+    public record CriticIngredient(String nome, Double quantity) { 
+    }
     public record RawMaterial(Date dataScadenza, String nome, float quantita, Date dataAquisto) { 
     }
 
@@ -108,6 +111,80 @@ public class InventoryTab extends AbstractSplitViewTab {
         c.gridy=9;
         c.insets = new Insets(70, 0, 70, 0);
         rightPanel.add(getButtonAggiungi(), c);
+        c.gridx=1;
+        c.gridy=10;
+        c.insets = new Insets(0, 0, 0, 0);
+        rightPanel.add(getButtonSetCritic(c), c);
+        c.gridx=2;
+        c.gridy=10;
+        rightPanel.add(getButtonSetExpired(), c);
+    }
+
+    private JButton getButtonSetExpired () {
+        var button = new JButton("Ottieni materie \nprime scadute");
+        button.addActionListener(e -> {
+            setRowExpired();
+        });
+        return button;
+    }
+
+    private void setRowExpired() {
+        rawPane.removeAll();
+        List<Map<String, Object>> tab =  InventoryDAO.getExpired();
+        List<RawMaterial> resultTab = new ArrayList<>();
+        tab.forEach(row -> resultTab.add
+                (new RawMaterial(
+                    (Date) row.get("Data_scadenza"),
+                    (String) row.get("Nome_Ingrediente"), 
+                    (Float) row.get("Quantita"),
+                    (Date) row.get("Data_d_acquisto"))));
+        resultTab.forEach(r -> {
+                final JPanel jp = new JPanel(new GridBagLayout());
+                final GridBagConstraints c = new GridBagConstraints();
+                c.gridx = 0;
+                c.gridy = 0;
+                jp.add(new JLabel("Data di scadenza" + ": " + r.dataScadenza), c);
+                c.gridx = 0;
+                c.gridy = 1;
+                jp.add(new JLabel("Data d'acquisto" + ": " + r.dataAquisto), c);
+                c.gridx = 0;
+                c.gridy = 2;
+                jp.add(new JLabel("Nome" + ": " + r.nome), c);
+                c.gridx = 0;
+                c.gridy = 3;
+                jp.add(new JLabel("Quantita'" + ": " + r.quantita), c);
+                rawPane.add(jp);
+            });
+        super.setLeftPanel(rawPane);
+    }
+
+    private JButton getButtonSetCritic(final GridBagConstraints c) {
+        var button = new JButton("Ottieni ingredienti \nsotto soglia critica");
+        button.addActionListener(e -> {
+            setCritic(c);
+        });
+        return button;
+    }
+
+    private void setCritic(final GridBagConstraints c) {
+        List<Map<String, Object>> tab =  InventoryDAO.getCritic();
+        List<CriticIngredient> resultTab = new ArrayList<>();
+        tab.forEach(row -> resultTab.add
+                (new CriticIngredient(
+                    (String) row.get("Nome_Ingrediente"),
+                    (Double) row.get("Quantita_tot")))); 
+        System.out.println(resultTab);
+        resultTab.forEach(r -> {
+                final JPanel jp = new JPanel(new GridBagLayout());
+                c.gridx = 0;
+                c.gridy = 0;
+                jp.add(new JLabel("Nome" + ": " + r.nome), c);
+                c.gridx = 0;
+                c.gridy = 1;
+                jp.add(new JLabel("Quantita'" + ": " + r.quantity), c);
+                criticPane.add(jp);
+            });
+        super.setLeftPanel(criticPane);
     }
 
     @Override
@@ -210,7 +287,6 @@ public class InventoryTab extends AbstractSplitViewTab {
                     (String) row.get("Nome_Ingrediente"), 
                     (Float) row.get("Quantita"),
                     (Date) row.get("Data_d_acquisto"))));
-        System.out.println(resultTab);
         resultTab.forEach(r -> {
                 final JPanel jp = new JPanel(new GridBagLayout());
                 final GridBagConstraints c = new GridBagConstraints();
@@ -226,14 +302,6 @@ public class InventoryTab extends AbstractSplitViewTab {
                 c.gridx = 0;
                 c.gridy = 3;
                 jp.add(new JLabel("Quantita'" + ": " + r.quantita), c);
-                c.gridx = 1;
-                c.gridy = 1;
-                var button = new JButton("Aumenta");
-                button.addActionListener(e -> {
-                    
-                });
-                var button2 = new JButton("Diminuisci");
-
                 rawPane.add(jp);
             });
         super.setLeftPanel(rawPane);
