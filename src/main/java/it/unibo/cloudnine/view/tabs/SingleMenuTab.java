@@ -7,6 +7,7 @@ import it.unibo.cloudnine.view.View;
 import it.unibo.cloudnine.data.Food;
 
 import javax.swing.JPanel;
+
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -14,20 +15,26 @@ import javax.swing.JComboBox;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-
+import java.awt.Insets;
 import java.util.Set;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Vector; 
-import java.util.Objects; 
+import java.util.Objects;
+import java.util.Map.Entry; 
 
 public class SingleMenuTab extends AbstractSplitViewTab {
 
     private final JPanel scrollingPane = new JPanel(new GridLayout(0, 1));
     private final JPanel rightPane = new JPanel();
 
+    private final JLabel currentAvailability = new JLabel();
+
     private final Vector<Food> comboBoxVector = new Vector<>();
     private final JComboBox<Food> comboBox = new JComboBox<>(comboBoxVector);
+
+    private final Vector<String> availabilityVector = new Vector<>();
+    private final JComboBox<String> availabilityComboBox = new JComboBox<>(availabilityVector);
     
     private final Menu menu;
 
@@ -63,6 +70,12 @@ public class SingleMenuTab extends AbstractSplitViewTab {
             element.add(getRemoveFoodButton(food), c);
             scrollingPane.add(element);
         });
+        if (!MenuDAO.getAvailability(menu).isEmpty()) {
+            currentAvailability.setText("<html>Disponibilità: " + "<br>" + formatAvailability(menu) + "</html>");
+        }
+        else {
+            currentAvailability.setText("Disponibilità: nessuna");
+        }
     }
 
     private void initializeRightPanel() {
@@ -74,6 +87,44 @@ public class SingleMenuTab extends AbstractSplitViewTab {
         c.gridx = 0;
         c.gridy = 1;
         rightPane.add(getAddFoodButton(), c);
+        // Form categoria
+        c.gridx = 0; 
+        c.gridy = 2;
+        c.insets = new Insets(20, 0, 0, 0);
+        rightPane.add(new JLabel("Disponibilità da eliminare:"), c);
+        c.gridx = 1;
+        c.gridy = 2;
+        c.insets = new Insets(20, 0, 0, 0);
+        rightPane.add(availabilityComboBox, c);
+        c.gridx = 0;
+        c.gridy = 3;
+        c.gridwidth = 2;
+        rightPane.add(getConfirmDeleteAvailabilityButton(), c);
+        c.gridx = 2;
+        c.gridy = 2;
+        c.gridwidth = 1;
+        c.insets = new Insets(20, 50, 0, 0);
+        rightPane.add(new JLabel("Nuova disponibilità: "), c);
+        c.gridx = 3;
+        c.gridy = 2;
+        rightPane.add(new JComboBox<>(), c);
+        c.gridx = 2;
+        c.gridy = 3;
+        c.gridwidth = 2;
+        rightPane.add(getAddAvailabilityButton(), c);
+        c.gridx = 0;
+        c.gridy = 4;
+        rightPane.add(currentAvailability,  c);
+    }
+
+    private JButton getAddAvailabilityButton() {
+        final JButton button = new JButton("Aggiungi disponibilità");
+        return button;
+    }
+
+    private JButton getConfirmDeleteAvailabilityButton() {
+        final JButton button = new JButton("Conferma eliminazione");
+        return button;
     }
 
     private List<Food> orderFoods(final Set<Food> foodSet) {
@@ -106,6 +157,20 @@ public class SingleMenuTab extends AbstractSplitViewTab {
             }
         });
         return button;
+    }
+
+    private String formatAvailability(final Menu menu) {
+        String availability = "";
+        for (Entry<String,List<String>> entry : MenuDAO.getAvailability(menu).entrySet()) {
+            String days = "";
+            for (String day : entry.getValue()) {
+                days = days + day + ", "; 
+            }
+            days = days.substring(0, days.length() - 2);
+            availability = availability
+            + entry.getKey() + ": " + days + "<br>";
+        }
+        return availability;
     }
     
 }
