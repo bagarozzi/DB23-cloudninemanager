@@ -9,7 +9,9 @@ import java.util.Set;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.HashMap;
 
 public class MenuDAO {
 
@@ -32,6 +34,8 @@ public class MenuDAO {
     private static final String DELETE_MENU = "DELETE FROM menu WHERE menu.Nome_Menu = ?";
 
     private static final String MODIFY_MENU = "UPDATE `menu` SET `Nome_Menu` = ?, `Costo_menu_AYCE` = ? WHERE `menu`.`Nome_Menu` = ?";
+
+    private static final String CHECK_AVAILABILITY = "SELECT Servizio, Giorno FROM servizio_di_diponibilita WHERE Nome_Menu = ?";
 
     public static Set<Menu> getAllMenus() {
         final Set<Menu> menus = new HashSet<>();
@@ -118,6 +122,27 @@ public class MenuDAO {
         } catch (SQLException e) {
             // TODO
         }
+    }
+
+    public static Map<String, List<String>> getAvailability(final Menu menu) {
+        final Map<String, List<String>> resultMap = new HashMap<>();
+        try {
+            manager.openConnection();
+            List<Map<String, Object>> result = manager.getQuery(CHECK_AVAILABILITY, menu.nome());
+            result.forEach(row -> {
+                final String service = (String)row.get("Servizio");
+                final String day = (String)row.get("Giorno");
+                if(resultMap.containsKey(service)) {
+                    resultMap.get(service).add(day);
+                }
+                else {
+                    resultMap.put(service, new ArrayList<String>(List.of(day)));
+                }
+            });
+        } catch (SQLException e) {
+            // TODO 
+        }
+        return resultMap;
     }
     
 }
