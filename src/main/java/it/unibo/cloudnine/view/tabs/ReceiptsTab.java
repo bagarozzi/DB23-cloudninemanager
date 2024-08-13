@@ -10,11 +10,8 @@ import java.sql.Time;
 
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.sql.Date;
-
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
-import javax.swing.ComboBoxEditor;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
@@ -23,7 +20,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 
 import it.unibo.cloudnine.dao.FoodDAO;
-import it.unibo.cloudnine.dao.InventoryDAO;
 import it.unibo.cloudnine.dao.MenuDAO;
 import it.unibo.cloudnine.dao.ReceipitDAO;
 import it.unibo.cloudnine.data.Food;
@@ -31,8 +27,6 @@ import it.unibo.cloudnine.data.Menu;
 import it.unibo.cloudnine.data.Order;
 import it.unibo.cloudnine.data.Receipit;
 import it.unibo.cloudnine.data.Vivanda;
-import it.unibo.cloudnine.view.View;
-import it.unibo.cloudnine.view.tabs.InventoryTab.Ingredient;
 import it.unibo.cloudnine.view.View;
 
 public class ReceiptsTab extends AbstractSplitViewTab{

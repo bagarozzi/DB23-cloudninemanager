@@ -3,9 +3,6 @@ package it.unibo.cloudnine.dao;
 import java.util.List;
 import java.util.Map;
 
-import java.sql.Date;
-import java.sql.Time;
-
 import it.unibo.cloudnine.core.CloudnineManager;
 import it.unibo.cloudnine.core.DatabaseManager;
 
