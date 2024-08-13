@@ -2,6 +2,7 @@ package it.unibo.cloudnine.dao;
 
 import it.unibo.cloudnine.core.CloudnineManager;
 import it.unibo.cloudnine.core.DatabaseManager;
+import it.unibo.cloudnine.data.Availability;
 import it.unibo.cloudnine.data.Food;
 import it.unibo.cloudnine.data.Menu;
 
@@ -36,6 +37,10 @@ public class MenuDAO {
     private static final String MODIFY_MENU = "UPDATE `menu` SET `Nome_Menu` = ?, `Costo_menu_AYCE` = ? WHERE `menu`.`Nome_Menu` = ?";
 
     private static final String CHECK_AVAILABILITY = "SELECT Servizio, Giorno FROM servizio_di_diponibilita WHERE Nome_Menu = ?";
+
+    private static final String DELETE_AVAILABILITY = "DELETE FROM servizio_di_diponibilita WHERE Giorno = ? AND Servizio = ? AND Nome_Menu = ?";
+
+    private static final String ADD_AVAILABILITY = "INSERT INTO servizio_di_diponibilita (Giorno, Servizio, Nome_Menu) VALUES (?, ?, ?)";
 
     public static Set<Menu> getAllMenus() {
         final Set<Menu> menus = new HashSet<>();
@@ -143,6 +148,24 @@ public class MenuDAO {
             // TODO 
         }
         return resultMap;
+    }
+
+    public static void deleteAvailability(final Availability availability, final Menu menu) {
+        try {
+            manager.openConnection();
+            manager.setQuery(DELETE_AVAILABILITY, availability.day(), availability.service(), menu.nome());
+        } catch (SQLException e) {
+            // TODO
+        }
+    }
+
+    public static void addAvailability(final Availability availability, final Menu menu) {
+        try {
+            manager.openConnection();
+            manager.setQuery(ADD_AVAILABILITY, availability.day(), availability.service(), menu.nome());
+        } catch (SQLException e) {
+            // TODO
+        }
     }
     
 }

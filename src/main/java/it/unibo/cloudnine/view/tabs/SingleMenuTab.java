@@ -4,6 +4,7 @@ import it.unibo.cloudnine.dao.FoodDAO;
 import it.unibo.cloudnine.dao.MenuDAO;
 import it.unibo.cloudnine.data.Menu;
 import it.unibo.cloudnine.view.View;
+import it.unibo.cloudnine.data.Availability;
 import it.unibo.cloudnine.data.Food;
 
 import javax.swing.JPanel;
@@ -33,8 +34,11 @@ public class SingleMenuTab extends AbstractSplitViewTab {
     private final Vector<Food> comboBoxVector = new Vector<>();
     private final JComboBox<Food> comboBox = new JComboBox<>(comboBoxVector);
 
-    private final Vector<String> availabilityVector = new Vector<>();
-    private final JComboBox<String> availabilityComboBox = new JComboBox<>(availabilityVector);
+    private final Vector<Availability> availabilityVector = new Vector<>();
+    private final JComboBox<Availability> availabilityComboBox = new JComboBox<>(availabilityVector);
+
+    private final Vector<Availability> newAvailabilityVector = new Vector<>();
+    private final JComboBox<Availability> newAvailabilityComboBox = new JComboBox<>(newAvailabilityVector);
     
     private final Menu menu;
 
@@ -51,6 +55,8 @@ public class SingleMenuTab extends AbstractSplitViewTab {
     void refresh() {
         scrollingPane.removeAll();
         comboBoxVector.clear();
+        availabilityVector.clear();
+        newAvailabilityVector.clear();
         final Set<Food> everyFood = FoodDAO.getAllFoods();
         everyFood.removeAll(MenuDAO.getAllFoods(menu));
         comboBoxVector.addAll(everyFood);
@@ -76,6 +82,17 @@ public class SingleMenuTab extends AbstractSplitViewTab {
         else {
             currentAvailability.setText("Disponibilità: nessuna");
         }
+        MenuDAO.getAvailability(menu).entrySet().forEach(entry -> {
+            entry.getValue().forEach(day -> {
+                availabilityVector.add(new Availability(day, entry.getKey()));
+            });
+        });
+        List.of("Pranzo", "Cena").forEach(service -> {
+            List.of("Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica").forEach(day -> {
+                newAvailabilityVector.add(new Availability(day, service));
+            });
+        });
+        newAvailabilityVector.removeAll(availabilityVector);
     }
 
     private void initializeRightPanel() {
@@ -107,7 +124,7 @@ public class SingleMenuTab extends AbstractSplitViewTab {
         rightPane.add(new JLabel("Nuova disponibilità: "), c);
         c.gridx = 3;
         c.gridy = 2;
-        rightPane.add(new JComboBox<>(), c);
+        rightPane.add(newAvailabilityComboBox, c);
         c.gridx = 2;
         c.gridy = 3;
         c.gridwidth = 2;
@@ -119,11 +136,29 @@ public class SingleMenuTab extends AbstractSplitViewTab {
 
     private JButton getAddAvailabilityButton() {
         final JButton button = new JButton("Aggiungi disponibilità");
+        button.addActionListener(e -> {
+            if(newAvailabilityComboBox.getSelectedIndex() != -1) {
+                MenuDAO.addAvailability(
+                    newAvailabilityVector.get(newAvailabilityComboBox.getSelectedIndex()),
+                    menu
+                );
+                refresh();
+            }
+        });
         return button;
     }
 
     private JButton getConfirmDeleteAvailabilityButton() {
         final JButton button = new JButton("Conferma eliminazione");
+        button.addActionListener(e -> {
+            if(availabilityComboBox.getSelectedIndex() != -1) {
+                MenuDAO.deleteAvailability(
+                    availabilityVector.get(availabilityComboBox.getSelectedIndex()),
+                    menu
+                );
+                refresh();
+            }
+        });
         return button;
     }
 

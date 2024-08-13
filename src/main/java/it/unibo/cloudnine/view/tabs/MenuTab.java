@@ -13,6 +13,7 @@ import javax.swing.JComboBox;
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.util.List;
@@ -26,6 +27,7 @@ public class MenuTab extends AbstractSplitViewTab {
     
     private final JTextField menuName = new JTextField();
     private final JTextField menuCost = new JTextField();
+
     private final Vector<String> comboBoxVector = new Vector<>();
     private final JComboBox<String> comboBox = new JComboBox<>(comboBoxVector);
 
