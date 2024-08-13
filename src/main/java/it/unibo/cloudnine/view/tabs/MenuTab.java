@@ -13,10 +13,12 @@ import javax.swing.JComboBox;
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-
-import java.util.Vector; 
+import java.util.List;
+import java.util.Vector;
+import java.util.Map.Entry; 
 
 public class MenuTab extends AbstractSplitViewTab {
 
@@ -25,6 +27,7 @@ public class MenuTab extends AbstractSplitViewTab {
     
     private final JTextField menuName = new JTextField();
     private final JTextField menuCost = new JTextField();
+
     private final Vector<String> comboBoxVector = new Vector<>();
     private final JComboBox<String> comboBox = new JComboBox<>(comboBoxVector);
 
@@ -94,6 +97,14 @@ public class MenuTab extends AbstractSplitViewTab {
             c.gridx = 0;
             c.gridy = 2;
             element.add(new JLabel("Costo AYCE: " + menu.costo() + " euro"), c);
+            c.gridx = 0;
+            c.gridy = 3;
+            if (!MenuDAO.getAvailability(menu).isEmpty()) {
+                element.add(new JLabel("<html>Disponibilità: " + "<br>" + formatAvailability(menu) + "</html>"), c);
+            }
+            else {
+                element.add(new JLabel("Disponibilità: nessuna"), c);
+            }
             element.setBorder(new LineBorder(new Color(90, 93, 97), 3));
             scrollingPane.add(element);
             comboBoxVector.add(menu.nome());
@@ -133,6 +144,20 @@ public class MenuTab extends AbstractSplitViewTab {
         c.gridx = 1;
         c.gridy = 4;
         rightPane.add(confirmButton, c);
+    }
+
+    private String formatAvailability(final Menu menu) {
+        String availability = "";
+        for (Entry<String,List<String>> entry : MenuDAO.getAvailability(menu).entrySet()) {
+            String days = "";
+            for (String day : entry.getValue()) {
+                days = days + day + ", "; 
+            }
+            days = days.substring(0, days.length() - 2);
+            availability = availability
+            + entry.getKey() + ": " + days + "<br>";
+        }
+        return availability;
     }
 
     private JButton getClearFormButton() {
