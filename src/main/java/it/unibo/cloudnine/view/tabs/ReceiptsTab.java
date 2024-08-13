@@ -17,6 +17,7 @@ import javax.swing.JComboBox;
 import javax.swing.ComboBoxEditor;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -27,6 +28,9 @@ import it.unibo.cloudnine.dao.MenuDAO;
 import it.unibo.cloudnine.dao.ReceipitDAO;
 import it.unibo.cloudnine.data.Food;
 import it.unibo.cloudnine.data.Menu;
+import it.unibo.cloudnine.data.Order;
+import it.unibo.cloudnine.data.Receipit;
+import it.unibo.cloudnine.data.Vivanda;
 import it.unibo.cloudnine.view.View;
 import it.unibo.cloudnine.view.tabs.InventoryTab.Ingredient;
 import it.unibo.cloudnine.view.View;
@@ -34,6 +38,7 @@ import it.unibo.cloudnine.view.View;
 public class ReceiptsTab extends AbstractSplitViewTab{
     private JPanel rightPanelReceipit;
     private JPanel rightPanelOrders;
+    private JPanel platePane = new JPanel(new GridLayout(0, 1));
     private JPanel receipitPane = new JPanel(new GridLayout(0, 1));
     private JPanel OrderPane = new JPanel(new GridLayout(0, 1));
     private JComboBox <String> modalitaOrdine = new JComboBox<>( new Vector<> (List.of("AYCE", "CARTA")));
@@ -46,22 +51,6 @@ public class ReceiptsTab extends AbstractSplitViewTab{
     private JTextField numeroPiatti = new JTextField();
     private JTextField cameriere = new JTextField();
     private JTextField stato = new JTextField();
-
-    public record Receipit(Float contoFinale, Integer codComanda, 
-            String modatlitaOrdine, Integer nCoperti,
-            Date data, Time ora, String nomeMenu, Integer numTavolo, String codFiscale) {
-    }
-
-    public record Vivanda(Integer codVivanda, String nome) {
-
-        @Override
-        public final String toString() {
-            return codVivanda + " " + nome;
-        }
-    }
-
-    public record Order(Integer codComanda, String stato, Integer nOrdine) {
-    }
 
     public ReceiptsTab(View view) {
         super(view);
@@ -84,21 +73,21 @@ public class ReceiptsTab extends AbstractSplitViewTab{
                 final GridBagConstraints c = new GridBagConstraints();
                 c.gridx = 0;
                 c.gridy = 0;
-                jp.add(new JLabel("Codice Comanda" + ": " + r.codComanda), c);
+                jp.add(new JLabel("Codice Comanda" + ": " + r.codComanda()), c);
                 c.gridx = 0;
                 c.gridy = 1;
-                jp.add(new JLabel("Numero Ordine" + ": " + r.nOrdine), c);
+                jp.add(new JLabel("Numero Ordine" + ": " + r.nOrdine()), c);
                 c.gridx = 0;
                 c.gridy = 2;
-                jp.add(new JLabel("Stato" + ": " + r.stato), c);
+                jp.add(new JLabel("Stato" + ": " + r.stato()), c);
                 OrderPane.add(jp);
                 c.gridx = 1;
                 c.gridy = 0;
                 c.insets = new Insets(0, 30, 0, 0);
-                jp.add(getButtonDeleteOrder(r.codComanda, r.codComanda), c);
+                jp.add(getButtonPlate(codComanda, r.nOrdine()), c);
                 c.gridx = 1;
                 c.gridy = 1;
-                jp.add(getButtonDeleteOrder(r.codComanda, r.codComanda), c);
+                jp.add(getButtonDeleteOrder(r.codComanda(), r.nOrdine()), c);
             });
             super.setLeftPanel(OrderPane);
     }
@@ -135,7 +124,7 @@ public class ReceiptsTab extends AbstractSplitViewTab{
         c.gridx = 0;
         c.gridy = 5;
         var app = (Vivanda) nomeVivanda.getSelectedItem();
-        rightPanelOrders.add(getButtonAddPlate(codComanda, app.codVivanda), c);
+        rightPanelOrders.add(getButtonAddPlate(codComanda, app.codVivanda()), c);
         super.setRightPanel(rightPanelOrders);
     }
 
@@ -144,6 +133,53 @@ public class ReceiptsTab extends AbstractSplitViewTab{
         button.addActionListener(e -> {
                 ReceipitDAO.insertOrderFood(codComanda, codVivanda, Integer.valueOf(numeroPiatti.getText()));
                 numeroPiatti.setText("");
+            });
+        return button;
+    }
+
+    private JButton getButtonPlate(int codComanda, int nOrdine) {
+        var button = new JButton("Vai ai piatti");
+        button.addActionListener(e -> {
+            setPlatePane(codComanda, nOrdine);
+        });
+        return button;
+    }
+
+    private void setPlatePane(int codComanda, int nOrdine) {
+        platePane.removeAll();
+        List<Map<String, Object>> tab =  ReceipitDAO.getPlate(codComanda, nOrdine);
+        List<Vivanda> resultTab = new ArrayList<>();
+        tab.forEach(row -> resultTab.add
+            (new Vivanda(
+                (Integer) row.get("Cod_vivanda"), 
+                (String) row.get("Nome_Vivanda"),
+                (Integer) row.get("N_vivande"))));
+        resultTab.forEach(r -> {
+            final JPanel jp = new JPanel(new GridBagLayout());
+            final GridBagConstraints c = new GridBagConstraints();
+            c.gridx = 0;
+            c.gridy = 0;
+            jp.add(new JLabel("Codice vivanda" + ": " + r.codVivanda()), c);
+            c.gridx = 0;
+            c.gridy = 1;
+            jp.add(new JLabel("Nome vivanda" + ": " + r.nome()), c);
+            c.gridx = 0;
+            c.gridy = 2;
+            jp.add(new JLabel("Numero Piatti" + ": " + r.nPiatti()), c);
+            c.gridx = 1;
+            c.gridy = 0;
+            c.insets = new Insets(0, 30, 0, 0);
+            jp.add(getButtonDeletePlate(codComanda, nOrdine, r.codVivanda()), c);
+            platePane.add(jp);
+        });
+        super.setLeftPanel(platePane);
+    }
+
+    private JButton getButtonDeletePlate(int codComanda, int nOrdine, int codVivanda) {
+        var button = new JButton("Cancella");
+        button.addActionListener(e -> {
+                ReceipitDAO.deletePlateFromOrder(codComanda, nOrdine, codVivanda);
+                setPlatePane(codComanda, nOrdine);
             });
         return button;
     }
@@ -184,40 +220,40 @@ public class ReceiptsTab extends AbstractSplitViewTab{
                 final GridBagConstraints c = new GridBagConstraints();
                 c.gridx = 0;
                 c.gridy = 0;
-                jp.add(new JLabel("Conto" + ": " + r.contoFinale), c);
+                jp.add(new JLabel("Conto" + ": " + r.contoFinale()), c);
                 c.gridx = 0;
                 c.gridy = 1;
-                jp.add(new JLabel("Codice comanda" + ": " + r.codComanda), c);
+                jp.add(new JLabel("Codice comanda" + ": " + r.codComanda()), c);
                 c.gridx = 0;
                 c.gridy = 2;
-                jp.add(new JLabel("Modatila' d'ordine" + ": " + r.modatlitaOrdine), c);
+                jp.add(new JLabel("Modatila' d'ordine" + ": " + r.modatlitaOrdine()), c);
                 c.gridx = 0;
                 c.gridy = 3;
-                jp.add(new JLabel("Coperti" + ": " + r.nCoperti), c);
+                jp.add(new JLabel("Coperti" + ": " + r.nCoperti()), c);
                 c.gridx = 0;
                 c.gridy = 4;
-                jp.add(new JLabel("Data" + ": " + r.data), c);
+                jp.add(new JLabel("Data" + ": " + r.data()), c);
                 c.gridx = 0;
                 c.gridy = 5;
-                jp.add(new JLabel("Ora" + ": " + r.ora), c);
+                jp.add(new JLabel("Ora" + ": " + r.ora()), c);
                 c.gridx = 0;
                 c.gridy = 6;
-                jp.add(new JLabel("Nome menu" + ": " + r.nomeMenu), c);
+                jp.add(new JLabel("Nome menu" + ": " + r.nomeMenu()), c);
                 c.gridx = 0;
                 c.gridy = 7;
-                jp.add(new JLabel("Numero tavolo" + ": " + r.numTavolo), c);
+                jp.add(new JLabel("Numero tavolo" + ": " + r.numTavolo()), c);
                 c.gridx = 0;
                 c.gridy = 8;
-                jp.add(new JLabel("Cameriere" + ": " + r.codFiscale), c);
+                jp.add(new JLabel("Cameriere" + ": " + r.codFiscale()), c);
                 c.gridx = 1;
                 c.gridy = 2;
-                jp.add(getButtonCheck(r.codComanda), c);
+                jp.add(getButtonCheck(r.codComanda()), c);
                 c.gridx = 1;
                 c.gridy = 3;
-                jp.add(getButtonDeleteComanda(r.codComanda), c);
+                jp.add(getButtonDeleteComanda(r.codComanda()), c);
                 c.gridx = 1;
                 c.gridy = 4;
-                jp.add(getButtonOrder(r.codComanda), c);
+                jp.add(getButtonOrder(r.codComanda()), c);
                 receipitPane.add(jp);
             });
         super.setLeftPanel(receipitPane);
@@ -343,7 +379,7 @@ public class ReceiptsTab extends AbstractSplitViewTab{
     private Vector<Vivanda> getFoods() {
         Vector <Vivanda> vec = new Vector<>();
         Set<Food> set = FoodDAO.getAllFoods();
-        set.forEach(e -> vec.add(new Vivanda(e.codice(), e.name())));
+        set.forEach(e -> vec.add(new Vivanda(e.codice(), e.name(), null)));
         return vec;
     }
 }

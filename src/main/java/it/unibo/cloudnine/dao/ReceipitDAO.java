@@ -49,12 +49,37 @@ public class ReceipitDAO {
 
     private static final String LAST_ORDER_NUMBER = "SELECT MAX(N_Ordine) AS N FROM Ordine WHERE Cod_Comanda = ?";
 
+    private static final String GET_PLATE = "SELECT Nome_vivanda, R.Cod_vivanda, N_vivande\r\n" + //
+                "FROM richiede as R, vivanda AS V\r\n" + //
+                "WHERE V.Cod_vivanda = R.Cod_vivanda AND R.Cod_Comanda = ? AND R.N_Ordine = ?";
+
+    private static final String DELETE_PLATE_FROM_ORDER = "DELETE FROM richiede\r\n" + //
+                "WHERE Cod_Comanda = ? AND N_Ordine = ? AND Cod_vivanda = ?";
+
     private static final DatabaseManager manager;
 
     static {
         manager = CloudnineManager.getDatabaseManager();
     }
 
+
+    public static void deletePlateFromOrder(int codComanda, int nOrdine, int codVivanda) {
+        try {
+            manager.openConnection();
+            manager.setQuery(DELETE_PLATE_FROM_ORDER, codComanda, nOrdine, codVivanda);
+        } catch (Exception e) {
+        }
+    }
+
+    public static List<Map<String, Object>> getPlate(Integer codComanda, Integer nOrdine) {
+        try {
+            manager.openConnection();
+            List<Map<String, Object>> result = manager.getQuery(GET_PLATE, codComanda, nOrdine);
+            return result;
+        } catch (Exception e) {
+        }
+        return null;
+    }
 
     public static void insertOrderFood(int codComanda, int codVivanda, int nPiatti) {
         try {

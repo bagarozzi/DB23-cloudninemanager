@@ -70,6 +70,7 @@ public class View {
         pane.add(new ReceiptsTab(this), "Comande");
         pane.add(new StaffTab(this), "Staff");
         pane.add(new EarningsTab(this), "Guadagni");
+        pane.add(new OrderTab(this), "Ordini");
     }
 
     private void setCookTabs() {
