@@ -47,7 +47,7 @@ public class FoodDAO {
                 ));
             });
         } catch (SQLException e) {
-            // TODO  
+            System.out.println(e);
         }
         return foods;
     }
@@ -61,7 +61,7 @@ public class FoodDAO {
                 categories.add((String)category.get("Nome_Categoria"));
             });
         } catch (SQLException e) {
-            // TODO  
+            System.out.println(e);
         }
         return categories;
     }
@@ -71,7 +71,7 @@ public class FoodDAO {
             manager.openConnection();
             manager.setQuery(UPDATE_FOOD, food.name(), food.price(), food.type(), food.category(), food.codice());
         } catch (SQLException e) {
-            // TODO  
+            System.out.println(e);
         }
     }
 
@@ -80,7 +80,7 @@ public class FoodDAO {
             manager.openConnection();
             manager.setQuery(ADD_FOOD, food.price(), food.type(), food.name(), food.category());
         } catch (SQLException e) {
-            // TODO  
+            System.out.println(e);
         }
     }
 
@@ -89,7 +89,7 @@ public class FoodDAO {
             manager.openConnection();
             manager.setQuery(REMOVE_FOOD, food.codice());
         } catch (SQLException e) {
-            // TODO  
+            System.out.println(e);
         }
     }
 
@@ -98,7 +98,7 @@ public class FoodDAO {
             manager.openConnection();
             manager.setQuery(ADD_CATEGORY, category);
         } catch (SQLException e) {
-            // TODO  
+            System.out.println(e);
         }
     }
 
@@ -107,7 +107,7 @@ public class FoodDAO {
             manager.openConnection();
             manager.setQuery(DELETE_CATEGORY, category);
         } catch (SQLException e) {
-            // TODO  
+            System.out.println(e);
         }
     }
     
