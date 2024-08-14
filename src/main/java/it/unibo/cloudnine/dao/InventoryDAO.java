@@ -35,6 +35,7 @@ public class InventoryDAO {
             manager.openConnection();
             manager.setQuery(INSERT_RAW, dataScadenza, nome, quantita, dataAcquisto);
         } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
@@ -43,6 +44,7 @@ public class InventoryDAO {
             manager.openConnection();
             manager.setQuery(INSERT_INGREDIENT, sogliaCritica, costoAlKg, nome);
         } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
@@ -52,6 +54,7 @@ public class InventoryDAO {
             List<Map<String, Object>> result = manager.getQuery(INGREDIENTS);
             return result;
         } catch (Exception e) {
+            System.out.println(e);
         }
         return null;
     }
@@ -62,6 +65,7 @@ public class InventoryDAO {
             List<Map<String, Object>> result = manager.getQuery(ROW_MATERIAL, name);
             return result;
         } catch (Exception e) {
+            System.out.println(e);
         }
         return null;
     }
@@ -72,6 +76,7 @@ public class InventoryDAO {
             List<Map<String, Object>> result = manager.getQuery(GET_EXPIRED);
             return result;
         } catch (Exception e) {
+            System.out.println(e);
         }
         return null;
     }
@@ -82,6 +87,7 @@ public class InventoryDAO {
             List<Map<String, Object>> result = manager.getQuery(GET_CRITIC);
             return result;
         } catch (Exception e) {
+            System.out.println(e);
         }
         return null;
     }
@@ -91,6 +97,7 @@ public class InventoryDAO {
             manager.openConnection();
             manager.setQuery(REMOVE_MATERIAL,quantity, name);
         } catch (Exception e) {
+            System.out.println(e);
         }
     }
 }
