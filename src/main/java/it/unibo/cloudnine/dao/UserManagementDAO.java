@@ -46,7 +46,7 @@ public class UserManagementDAO {
                 return true;
             }
         } catch (SQLException e) {
-            // TODO
+            System.out.println(e);
         }
         return false;
     }
@@ -62,7 +62,7 @@ public class UserManagementDAO {
                 
             }
         } catch (SQLException e) {
-            // TODO 
+            System.out.println(e);
         }
         return null;
     }
@@ -80,7 +80,7 @@ public class UserManagementDAO {
                 (String)row.get("Password")
             )));
         } catch (SQLException e) {
-            // TODO 
+            System.out.println(e);
         }
         return resultList;
     }
@@ -90,7 +90,7 @@ public class UserManagementDAO {
             manager.openConnection();
             manager.setQuery(ADD_ACCOUNT, account.password(), account.username(), account.codFisc());
         } catch (SQLException e) {
-            // TODO 
+            System.out.println(e);
         }
     }
 
@@ -108,7 +108,7 @@ public class UserManagementDAO {
             manager.openConnection();
             manager.setQuery(DELETE_ACCOUNT, account.codFisc());
         } catch (SQLException e) {
-            // TODO 
+            System.out.println(e); 
         }
     }
 
@@ -119,7 +119,7 @@ public class UserManagementDAO {
             final List<Map<String, Object>> result = manager.getQuery(ALL_CODFISC);
             result.forEach(row -> fiscalCodes.add((String)row.get("CodFiscale")));
         } catch (SQLException e) {
-            // TODO 
+            System.out.println(e);
         }
         return fiscalCodes;
     }
