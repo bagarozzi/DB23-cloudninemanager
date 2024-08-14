@@ -55,7 +55,7 @@ public class MenuDAO {
                 ));
             });
         } catch (SQLException e) {
-            // TODO 
+            System.out.println(e);
         }
         return menus;
     }
@@ -69,7 +69,7 @@ public class MenuDAO {
             manager.openConnection();
             manager.setQuery(ADD_MENU, menu.nome(), menu.costo());
         } catch (SQLException e) {
-            // TODO
+            System.out.println(e);
         }
     }
 
@@ -78,7 +78,7 @@ public class MenuDAO {
             manager.openConnection();
             manager.setQuery(MODIFY_MENU, menu.nome(), menu.costo(), menu.nome());
         } catch (SQLException e) {
-            // TODO
+            System.out.println(e);
         }
     }
 
@@ -87,7 +87,7 @@ public class MenuDAO {
             manager.openConnection();
             manager.setQuery(DELETE_MENU, menu.nome());
         } catch (SQLException e) {
-            // TODO
+            System.out.println(e);
         }
     }
 
@@ -106,7 +106,7 @@ public class MenuDAO {
                 ));
             });
         } catch (SQLException e) {
-            // TODO 
+            System.out.println(e);
         }
         return foods;
     }
@@ -116,7 +116,7 @@ public class MenuDAO {
             manager.openConnection();
             manager.setQuery(DELETE_FOOD_MENU, menu.nome(), food.codice());
         } catch (SQLException e) {
-            // TODO
+            System.out.println(e);
         }
     }
 
@@ -125,7 +125,7 @@ public class MenuDAO {
             manager.openConnection();
             manager.setQuery(ADD_FOOD_MENU, menu.nome(), food.codice());
         } catch (SQLException e) {
-            // TODO
+            System.out.println(e);
         }
     }
 
@@ -145,7 +145,7 @@ public class MenuDAO {
                 }
             });
         } catch (SQLException e) {
-            // TODO 
+            System.out.println(e);
         }
         return resultMap;
     }
@@ -155,7 +155,7 @@ public class MenuDAO {
             manager.openConnection();
             manager.setQuery(DELETE_AVAILABILITY, availability.day(), availability.service(), menu.nome());
         } catch (SQLException e) {
-            // TODO
+            System.out.println(e);
         }
     }
 
@@ -164,7 +164,7 @@ public class MenuDAO {
             manager.openConnection();
             manager.setQuery(ADD_AVAILABILITY, availability.day(), availability.service(), menu.nome());
         } catch (SQLException e) {
-            // TODO
+            System.out.println(e);
         }
     }
     
