@@ -68,6 +68,7 @@ public class ReceipitDAO {
             manager.openConnection();
             manager.setQuery(DELETE_PLATE_FROM_ORDER, codComanda, nOrdine, codVivanda);
         } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
@@ -77,6 +78,7 @@ public class ReceipitDAO {
             List<Map<String, Object>> result = manager.getQuery(GET_PLATE, codComanda, nOrdine);
             return result;
         } catch (Exception e) {
+            System.out.println(e);
         }
         return null;
     }
@@ -87,6 +89,7 @@ public class ReceipitDAO {
             List<Map<String, Object>> tab = manager.getQuery(LAST_ORDER_NUMBER, codComanda);
             manager.setQuery(INSERT_FOOD_ORDER, codComanda,  tab.get(0).get("N"), codVivanda, nPiatti);
         } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
@@ -96,6 +99,7 @@ public class ReceipitDAO {
             List<Map<String, Object>> tab = manager.getQuery(SELECT_ORDER_NUMBER, codComanda);
             manager.setQuery(INSERT_ORDER, codComanda, stato, tab.get(0).get("N"));
         } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
@@ -104,6 +108,7 @@ public class ReceipitDAO {
             manager.openConnection();
             manager.setQuery(DELETE_ORDER, codComanda, nOrdine);
         } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
@@ -113,6 +118,7 @@ public class ReceipitDAO {
             manager.openConnection();
             manager.setQuery(INSERT_RECEIPIT, modalitaOrdine, coperti, data, ora, nomeMenu, numTavolo, codFiscale);
         } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
@@ -121,6 +127,7 @@ public class ReceipitDAO {
             manager.openConnection();
             manager.setQuery(GET_CHECK, codComanda);
         } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
@@ -131,6 +138,7 @@ public class ReceipitDAO {
             List<Map<String, Object>> result = manager.getQuery(GET_ORDER, codComanda);
             return result;
         } catch (Exception e) {
+            System.out.println(e);
         }
         return null;
     }
@@ -141,6 +149,7 @@ public class ReceipitDAO {
             List<Map<String, Object>> result = manager.getQuery(GET_RECEIPIT);
             return result;
         } catch (Exception e) {
+            System.out.println(e);
         }
         return null;
     }
@@ -150,6 +159,7 @@ public class ReceipitDAO {
             manager.openConnection();
             manager.setQuery(DELETE_RECEIPIT, codComanda);
         } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
@@ -159,6 +169,7 @@ public class ReceipitDAO {
             List<Map<String, Object>> result = manager.getQuery(GET_TABLE);
             return result;
         } catch (Exception e) {
+            System.out.println(e);
         }
         return null;
     }
