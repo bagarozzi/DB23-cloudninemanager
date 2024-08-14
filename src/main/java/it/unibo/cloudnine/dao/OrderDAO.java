@@ -26,6 +26,7 @@ public class OrderDAO {
             List<Map<String, Object>> result = manager.getQuery(GET_ORDERS);
             return result;
         } catch (Exception e) {
+            System.out.println(e);
         }
         return null;
     }
@@ -36,6 +37,7 @@ public class OrderDAO {
             List<Map<String, Object>> result = manager.getQuery(GET_PLATES, nOrdine, codComanda);
             return result;
         } catch (Exception e) {
+            System.out.println(e);
         }
         return null;
     }
