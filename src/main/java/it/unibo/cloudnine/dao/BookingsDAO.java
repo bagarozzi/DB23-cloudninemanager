@@ -26,6 +26,7 @@ public class BookingsDAO {
             List<Map<String, Object>> result = manager.getQuery(BOOKINGS);
             return result;
         } catch (Exception e) {
+            System.out.println(e);
         }
         System.out.println();
         return null;
@@ -36,7 +37,7 @@ public class BookingsDAO {
             manager.openConnection();
             manager.setQuery(CANCEL_BOOKING, data, ora, telefono);
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e);
         }
     }
 
@@ -45,7 +46,7 @@ public class BookingsDAO {
             manager.openConnection();
             manager.setQuery(CREATE_BOOKING, data, ora, nominativo, coperti, telefono, codFisc);
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e);
         }
     }
 }
