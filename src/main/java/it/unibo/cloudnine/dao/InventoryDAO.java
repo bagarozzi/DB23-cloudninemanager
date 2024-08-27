@@ -14,7 +14,7 @@ public class InventoryDAO {
 
     private static final String ROW_MATERIAL = "SELECT * FROM materia_prima WHERE Nome_ingrediente = ?";
     
-    private static final String REMOVE_MATERIAL = "UPDATE Materia_Prima AS M SET Quantita = Quantita - ? WHERE Nome_Ingrediente = ? AND Data_scadenza = (SELECT MIN(Materia_Prima.Data_scadenza) FROM Materia_Prima WHERE Nome_Ingrediente = M.Nome_Ingrediente)";
+    private static final String REMOVE_MATERIAL = "UPDATE Materia_Prima AS M SET Quantita = Quantita - ? WHERE Nome_Ingrediente = ? AND Data_scadenza = ?";
 
     private static final String INSERT_INGREDIENT = "INSERT INTO `ingrediente` (`Soglia_critica`, `Costo_al_kg`, `Nome_Ingrediente`) VALUES (?, ?, ?);";
 
@@ -23,6 +23,8 @@ public class InventoryDAO {
     private static final String GET_EXPIRED = "SELECT * FROM Materia_Prima AS M WHERE M.Data_scadenza < NOW();";
 
     private static final String GET_CRITIC = "SELECT I.Nome_Ingrediente, Quantita_tot FROM Ingrediente AS I JOIN (SELECT M.Nome_Ingrediente, SUM(M.Quantita) as Quantita_tot FROM Materia_Prima AS M GROUP BY M.Nome_Ingrediente) AS M ON I.Nome_Ingrediente = M.Nome_Ingrediente WHERE I.Nome_Ingrediente = M.Nome_Ingrediente\r\n AND Quantita_tot < I.Soglia_critica;";
+
+    private static final String DELETE_RAW = "DELETE FROM materia_prima WHERE Nome_Ingrediente = ? AND Data_scadenza = ?;";
 
     private static final DatabaseManager manager;
 
@@ -34,6 +36,15 @@ public class InventoryDAO {
         try {
             manager.openConnection();
             manager.setQuery(INSERT_RAW, dataScadenza, nome, quantita, dataAcquisto);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public static void deleteRaw(Date dataScadenza, String nome) {
+        try {
+            manager.openConnection();
+            manager.setQuery(DELETE_RAW, nome, dataScadenza);
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -92,10 +103,10 @@ public class InventoryDAO {
         return null;
     }
 
-    public static void removeMaterial(float quantity, String name) {
+    public static void removeMaterial(float quantity, String name, Date dataScadenza) {
         try {
             manager.openConnection();
-            manager.setQuery(REMOVE_MATERIAL,quantity, name);
+            manager.setQuery(REMOVE_MATERIAL, quantity, name, dataScadenza);
         } catch (Exception e) {
             System.out.println(e);
         }

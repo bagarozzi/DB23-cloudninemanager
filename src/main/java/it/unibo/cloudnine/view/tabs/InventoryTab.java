@@ -126,6 +126,19 @@ public class InventoryTab extends AbstractSplitViewTab {
         return button;
     }
 
+    private JButton getButtonDeleteRaw (Date dataScadenza, String nome, boolean reset) {
+        var button = new JButton("Elimina");
+        button.addActionListener(e -> {
+            InventoryDAO.deleteRaw(dataScadenza, nome);
+            if(reset) {
+                setRowPane(nome);
+            } else {
+                setRowExpired();
+            }
+        });
+        return button;
+    }
+
     private void setRowExpired() {
         rawPane.removeAll();
         List<Map<String, Object>> tab =  InventoryDAO.getExpired();
@@ -151,6 +164,9 @@ public class InventoryTab extends AbstractSplitViewTab {
                 c.gridx = 0;
                 c.gridy = 3;
                 jp.add(new JLabel("Quantita'" + ": " + r.quantita), c);
+                c.gridx = 1;
+                c.gridy = 1;
+                jp.add(getButtonDeleteRaw(r.dataScadenza(), r.nome(), false), c); 
                 jp.setBorder(new LineBorder(new Color(90, 93, 97), 3));
                 rawPane.add(jp);
             });
@@ -166,6 +182,7 @@ public class InventoryTab extends AbstractSplitViewTab {
     }
 
     private void setCritic(final GridBagConstraints c) {
+        criticPane.removeAll();
         List<Map<String, Object>> tab =  InventoryDAO.getCritic();
         List<CriticIngredient> resultTab = new ArrayList<>();
         tab.forEach(row -> resultTab.add
@@ -199,7 +216,6 @@ public class InventoryTab extends AbstractSplitViewTab {
                     (Float) row.get("Costo_al_kg"), 
                     (String) row.get("Nome_Ingrediente"))));
         resultTab.forEach(r -> {
-                JTextField quantityField = new JTextField();
                 final JPanel jp = new JPanel(new GridBagLayout());
                 final GridBagConstraints c = new GridBagConstraints();
                 c.gridx = 0;
@@ -214,14 +230,8 @@ public class InventoryTab extends AbstractSplitViewTab {
                 c.gridx = 1;
                 c.gridy = 2;
                 jp.add(getButtonDettagli(r), c);
-                ingredientPane.add(jp);
-                c.gridx = 1;
-                c.gridy = 1;
-                jp.add(quantityField);
-                c.gridx = 1;
-                c.gridy = 1;
-                jp.add(getButtonDiminuisci(quantityField, r.nome));
                 jp.setBorder(new LineBorder(new Color(90, 93, 97), 3));
+                ingredientPane.add(jp);
             });
             super.setLeftPanel(ingredientPane);
     }
@@ -242,12 +252,13 @@ public class InventoryTab extends AbstractSplitViewTab {
         return button;
     }
 
-    private JButton getButtonDiminuisci(JTextField quantityField, String name) {
+    private JButton getButtonDiminuisci(JTextField quantityField, String name, Date dataScadenza) {
         JButton button = new JButton("Diminuisci");
         button.addActionListener(e -> {
             try {
-                InventoryDAO.removeMaterial(Float.valueOf(quantityField.getText()), name);
+                InventoryDAO.removeMaterial(Float.valueOf(quantityField.getText()), name, dataScadenza);
                 quantityField.setText("");
+                setRowPane(name);
             } catch (Exception ex) {
             }
         });
@@ -280,6 +291,7 @@ public class InventoryTab extends AbstractSplitViewTab {
     }
     
     private void setRowPane(String name) {
+        rawPane.removeAll();
         List<Map<String, Object>> tab =  InventoryDAO.getRow(name);
         List<RawMaterial> resultTab = new ArrayList<>();
         tab.forEach(row -> resultTab.add
@@ -289,6 +301,7 @@ public class InventoryTab extends AbstractSplitViewTab {
                     (Float) row.get("Quantita"),
                     (Date) row.get("Data_d_acquisto"))));
         resultTab.forEach(r -> {
+                JTextField quantityField = new JTextField();
                 final JPanel jp = new JPanel(new GridBagLayout());
                 final GridBagConstraints c = new GridBagConstraints();
                 c.gridx = 0;
@@ -303,6 +316,15 @@ public class InventoryTab extends AbstractSplitViewTab {
                 c.gridx = 0;
                 c.gridy = 3;
                 jp.add(new JLabel("Quantita'" + ": " + r.quantita), c);
+                c.gridx = 1;
+                c.gridy = 2;
+                jp.add(quantityField, c);
+                c.gridx = 1;
+                c.gridy = 3;
+                jp.add(getButtonDiminuisci(quantityField, r.nome, r.dataScadenza), c);
+                c.gridx = 1;
+                c.gridy = 1;
+                jp.add(getButtonDeleteRaw(r.dataScadenza(), r.nome(), true), c); 
                 jp.setBorder(new LineBorder(new Color(90, 93, 97), 3));
                 rawPane.add(jp);
             });
