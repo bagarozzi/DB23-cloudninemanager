@@ -1,12 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Creato il: Ago 12, 2024 alle 12:00
--- Versione del server: 10.4.32-MariaDB
--- Versione PHP: 8.2.12
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -174,7 +165,6 @@ CREATE TABLE `menu` (
 --
 
 INSERT INTO `menu` (`Nome_Menu`, `Costo_menu_AYCE`) VALUES
-('Menù del cazzo', 12.32),
 ('Menù elegante', 30.23);
 
 -- --------------------------------------------------------
@@ -256,7 +246,6 @@ CREATE TABLE `proposta` (
 --
 
 INSERT INTO `proposta` (`Nome_Menu`, `Cod_vivanda`) VALUES
-('Menù del cazzo', 15),
 ('Menù elegante', 12);
 
 -- --------------------------------------------------------
