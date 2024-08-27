@@ -37,7 +37,7 @@ public class View {
 
         logoutButton.addActionListener(e -> showLoginTab());
 
-        frame.add(logoutButton);
+        pane.add(logoutButton);
         frame.add(pane);
         showLoginTab();
         frame.setVisible(true);
