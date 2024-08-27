@@ -1,9 +1,11 @@
 package it.unibo.cloudnine.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Time;
 
 import it.unibo.cloudnine.core.CloudnineManager;
@@ -58,6 +60,8 @@ public class ReceipitDAO {
 
     private static final String MODIFY_RECIEPIT = "UPDATE `comanda` SET Modalita_d_odine = ?, Coperti = ?, Data = ?, Ora = ?, Nome_Menu = ?, Num_Tavolo = ? ,CodFiscale = ?\r\n" + //
                 "WHERE Cod_Comanda = ?";
+
+    private static final String GET_EARNINGS = "SELECT SUM(comanda.Conto_finale) FROM comanda WHERE comanda.Data = CURRENT_DATE";
 
     private static final DatabaseManager manager;
 
@@ -184,5 +188,16 @@ public class ReceipitDAO {
             System.out.println(e);
         }
         return null;
+    }
+
+    public static float getTodaysEarnings() {
+        final List<Map<String, Object>> result = new ArrayList<>();
+        try {
+            manager.openConnection();
+            result.addAll(manager.getQuery(GET_EARNINGS));
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return (float)result.get(0).get("SUM(comanda.Conto_finale)");
     }
 }
