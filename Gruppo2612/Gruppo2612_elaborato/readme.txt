@@ -25,4 +25,4 @@ https://www.apachefriends.org/it/index.html
 9. Nella sezione "File da importare" scegliere tramite il tasto ed il file browser il file incluso in questo pacchetto
     chiamato "cloudnine.sql", successivamente premere su "Importa"
 
-10. Aprire il file "cloudnine.jar" e consultare l'applicativo. Si può utilizzare l'utente "bag" e la password "1" per fare log in
+10. Aprire il file "CloudNine.jar" e consultare l'applicativo. Si può utilizzare l'utente "bag" e la password "1" per fare log in
