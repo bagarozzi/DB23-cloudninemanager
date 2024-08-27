@@ -27,7 +27,6 @@ public class ReceiptsDAO {
         try {
             manager.openConnection();
             result.addAll(manager.getQuery(GET_EARNINGS));
-            System.out.println("diomerda" + result);
         } catch (SQLException e) {
             System.out.println(e);
         }
