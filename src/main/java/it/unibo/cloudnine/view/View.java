@@ -1,6 +1,8 @@
 package it.unibo.cloudnine.view;
 
 import java.awt.Dimension;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
@@ -25,6 +27,7 @@ import it.unibo.cloudnine.view.tabs.StaffTab;
 public class View {
 
     private final JFrame frame = new JFrame();
+    private final JButton logoutButton = new JButton("Logout");
     private final JTabbedPane pane = new JTabbedPane();
 
     public View() {
@@ -32,6 +35,9 @@ public class View {
         frame.setSize(new Dimension(1000, 800));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        logoutButton.addActionListener(e -> showLoginTab());
+
+        frame.add(logoutButton);
         frame.add(pane);
         showLoginTab();
         frame.setVisible(true);
@@ -60,8 +66,6 @@ public class View {
     }
 
     private void setAdminTabs() {
-        /* tutte */
-        System.out.println("anodc");
         pane.add(new AccountsTab(this), "Account");
         pane.add(new BookingsTab(this), "Prenotazioni");
         pane.add(new MenuTab(this), "Menus");
@@ -74,13 +78,12 @@ public class View {
     }
 
     private void setCookTabs() {
-        /* inventario, menù, comande, prenotazioni */
         pane.add("Inventario", new InventoryTab(this));
         pane.add("Ordini", new OrderTab(this));
-        /*  */
     }
 
     private void setWaiterTabs() {
-        /* COMANDE, ORDINI, INVENTARIO, PRENOTAZIONI */
+        pane.add(new ReceiptsTab(this), "Comande");
+        pane.add(new BookingsTab(this), "Prenotazioni");
     }
 }
