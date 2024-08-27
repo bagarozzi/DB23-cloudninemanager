@@ -23,7 +23,7 @@ import java.awt.GridBagConstraints;
 
 import it.unibo.cloudnine.dao.FoodDAO;
 import it.unibo.cloudnine.dao.MenuDAO;
-import it.unibo.cloudnine.dao.ReceipitDAO;
+import it.unibo.cloudnine.dao.ReceiptDAO;
 import it.unibo.cloudnine.data.Food;
 import it.unibo.cloudnine.data.Menu;
 import it.unibo.cloudnine.data.Order;
@@ -57,7 +57,7 @@ public class ReceiptsTab extends AbstractSplitViewTab{
     private void setOrderleftPane(int codComanda) {
         receipitPane.removeAll();
         OrderPane.removeAll();
-        List<Map<String, Object>> tab =  ReceipitDAO.getOrders(codComanda);
+        List<Map<String, Object>> tab =  ReceiptDAO.getOrders(codComanda);
         List<Order> resultTab = new ArrayList<>();
         tab.forEach(row -> resultTab.add
                 (new Order(
@@ -129,7 +129,7 @@ public class ReceiptsTab extends AbstractSplitViewTab{
     private JButton getButtonAddPlate(int codComanda, int codVivanda) {
         var button = new JButton("Aggiungi");
         button.addActionListener(e -> {
-                ReceipitDAO.insertOrderFood(codComanda, codVivanda, Integer.valueOf(numeroPiatti.getText()));
+                ReceiptDAO.insertOrderFood(codComanda, codVivanda, Integer.valueOf(numeroPiatti.getText()));
                 numeroPiatti.setText("");
             });
         return button;
@@ -145,7 +145,7 @@ public class ReceiptsTab extends AbstractSplitViewTab{
 
     private void setPlatePane(int codComanda, int nOrdine) {
         platePane.removeAll();
-        List<Map<String, Object>> tab =  ReceipitDAO.getPlate(codComanda, nOrdine);
+        List<Map<String, Object>> tab =  ReceiptDAO.getPlate(codComanda, nOrdine);
         List<Vivanda> resultTab = new ArrayList<>();
         tab.forEach(row -> resultTab.add
             (new Vivanda(
@@ -177,7 +177,7 @@ public class ReceiptsTab extends AbstractSplitViewTab{
     private JButton getButtonDeletePlate(int codComanda, int nOrdine, int codVivanda) {
         var button = new JButton("Cancella");
         button.addActionListener(e -> {
-                ReceipitDAO.deletePlateFromOrder(codComanda, nOrdine, codVivanda);
+                ReceiptDAO.deletePlateFromOrder(codComanda, nOrdine, codVivanda);
                 setPlatePane(codComanda, nOrdine);
             });
         return button;
@@ -201,7 +201,7 @@ public class ReceiptsTab extends AbstractSplitViewTab{
     @Override
     public void refresh() {
         receipitPane.removeAll();
-        List<Map<String, Object>> tab =  ReceipitDAO.getReceipit();
+        List<Map<String, Object>> tab =  ReceiptDAO.getReceipit();
         List<Receipit> resultTab = new ArrayList<>();
         tab.forEach(row -> resultTab.add
                 (new Receipit(
@@ -285,7 +285,7 @@ public class ReceiptsTab extends AbstractSplitViewTab{
     private JButton getButtonCheck(int codComanda) {
         var button = new JButton("Calcola conto");
         button.addActionListener(e -> {
-                ReceipitDAO.getChek(codComanda);
+                ReceiptDAO.getChek(codComanda);
                 refresh();
             });
         return button;
@@ -294,7 +294,7 @@ public class ReceiptsTab extends AbstractSplitViewTab{
     private JButton getButtonModifyComanda() {
         var button = new JButton("Modifica");
         button.addActionListener(e -> {
-                ReceipitDAO.modifyReciepit(selectedCodComanda, (String) modalitaOrdine.getSelectedItem(),
+                ReceiptDAO.modifyReciepit(selectedCodComanda, (String) modalitaOrdine.getSelectedItem(),
                      Integer.valueOf(nCoperti.getText()), Date.valueOf(data.getText()), Time.valueOf(ora.getText()), 
                      (String) nomeMenu.getSelectedItem(), (Integer) numTavolo.getSelectedItem(), cameriere.getText());
                 refresh();
@@ -305,7 +305,7 @@ public class ReceiptsTab extends AbstractSplitViewTab{
     private JButton getButtonDeleteComanda(int codComanda) {
         var button = new JButton("Cancella");
         button.addActionListener(e -> {
-                ReceipitDAO.deleteReceipit(codComanda);
+                ReceiptDAO.deleteReceipit(codComanda);
                 refresh();
             });
         return button;
@@ -314,7 +314,7 @@ public class ReceiptsTab extends AbstractSplitViewTab{
     private JButton getButtonInsertOrder(int codComanda) {
         var button = new JButton("Crea");
         button.addActionListener(e -> {
-                ReceipitDAO.insertOrder(codComanda, stato.getText());
+                ReceiptDAO.insertOrder(codComanda, stato.getText());
                 setOrderleftPane(codComanda);
                 stato.setText("");
             });
@@ -324,7 +324,7 @@ public class ReceiptsTab extends AbstractSplitViewTab{
     private JButton getButtonDeleteOrder(int codComanda, int nOrdine) {
         var button = new JButton("Cancella");
         button.addActionListener(e -> {
-                ReceipitDAO.deleteOrder(codComanda, nOrdine);
+                ReceiptDAO.deleteOrder(codComanda, nOrdine);
                 setOrderleftPane(codComanda);
             });
         return button;
@@ -388,7 +388,7 @@ public class ReceiptsTab extends AbstractSplitViewTab{
         var button = new JButton("Crea");
         button.addActionListener(e -> {
             try {
-                ReceipitDAO.insertReceipit((String) modalitaOrdine.getSelectedItem(), Integer.valueOf(nCoperti.getText()),
+                ReceiptDAO.insertReceipit((String) modalitaOrdine.getSelectedItem(), Integer.valueOf(nCoperti.getText()),
                         Date.valueOf(data.getText()), Time.valueOf(ora.getText()), (String) nomeMenu.getSelectedItem(),
                         (Integer) numTavolo.getSelectedItem(), cameriere.getText());
                 refresh();
@@ -399,7 +399,7 @@ public class ReceiptsTab extends AbstractSplitViewTab{
 
     private Vector<Integer> getTable() {
         Vector <Integer> vec = new Vector<>();
-        List<Map<String, Object>> tab =  ReceipitDAO.getTable();
+        List<Map<String, Object>> tab =  ReceiptDAO.getTable();
         System.out.println(tab);
         tab.forEach(row -> vec.add((Integer) row.get("Num_Tavolo")));
         return vec;

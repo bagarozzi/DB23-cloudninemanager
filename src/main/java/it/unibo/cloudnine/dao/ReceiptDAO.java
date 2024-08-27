@@ -11,7 +11,7 @@ import java.sql.Time;
 import it.unibo.cloudnine.core.CloudnineManager;
 import it.unibo.cloudnine.core.DatabaseManager;
 
-public class ReceipitDAO {
+public class ReceiptDAO {
     private static final String GET_RECEIPIT = "SELECT * FROM `comanda`";
 
     private static final String GET_ORDER = "SELECT * FROM `ordine` WHERE Cod_comanda = ?";

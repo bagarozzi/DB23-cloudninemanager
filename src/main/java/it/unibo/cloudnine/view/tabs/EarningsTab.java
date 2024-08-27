@@ -1,6 +1,6 @@
 package it.unibo.cloudnine.view.tabs;
 
-import it.unibo.cloudnine.dao.ReceiptsDAO;
+import it.unibo.cloudnine.dao.ReceiptDAO;
 import it.unibo.cloudnine.view.View;
 
 import javax.swing.JLabel;
