@@ -16,7 +16,7 @@ public class EarningsTab extends AbstractTab {
 
     @Override
     void refresh() {
-        todayEarnings = ReceiptsDAO.getTodaysEarnings();
+        todayEarnings = ReceiptDAO.getTodaysEarnings();
     }
     
 }
