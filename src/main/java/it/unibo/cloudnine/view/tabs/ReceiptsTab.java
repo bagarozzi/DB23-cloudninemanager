@@ -14,6 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
@@ -35,6 +37,7 @@ public class ReceiptsTab extends AbstractSplitViewTab{
     private JPanel platePane = new JPanel(new GridLayout(0, 1));
     private JPanel receipitPane = new JPanel(new GridLayout(0, 1));
     private JPanel OrderPane = new JPanel(new GridLayout(0, 1));
+    private int selectedCodComanda;
     private JComboBox <String> modalitaOrdine = new JComboBox<>( new Vector<> (List.of("AYCE", "CARTA")));
     private JTextField nCoperti = new JTextField();
     private JTextField data = new JTextField();
@@ -81,6 +84,7 @@ public class ReceiptsTab extends AbstractSplitViewTab{
                 jp.add(getButtonPlate(codComanda, r.nOrdine()), c);
                 c.gridx = 1;
                 c.gridy = 1;
+                jp.setBorder(new LineBorder(new Color(90, 93, 97), 3));
                 jp.add(getButtonDeleteOrder(r.codComanda(), r.nOrdine()), c);
             });
             super.setLeftPanel(OrderPane);
@@ -163,6 +167,7 @@ public class ReceiptsTab extends AbstractSplitViewTab{
             c.gridx = 1;
             c.gridy = 0;
             c.insets = new Insets(0, 30, 0, 0);
+            jp.setBorder(new LineBorder(new Color(90, 93, 97), 3));
             jp.add(getButtonDeletePlate(codComanda, nOrdine, r.codVivanda()), c);
             platePane.add(jp);
         });
@@ -202,12 +207,12 @@ public class ReceiptsTab extends AbstractSplitViewTab{
                 (new Receipit(
                     (Float) row.get("Conto_finale"),
                     (Integer) row.get("Cod_Comanda"), 
-                    (String) row.get("Modalita_d_ordine"),
+                    (String) row.get("Modalita_d_odine"),
                     (Integer) row.get("Coperti"),
                     (Date) row.get("Data"), 
                     (Time) row.get("Ora"),
-                    (String) row.get("Nome_menu"),
-                    (Integer) row.get("Num_tavolo"), 
+                    (String) row.get("Nome_Menu"),
+                    (Integer) row.get("Num_Tavolo"), 
                     (String) row.get("CodFiscale"))));
         resultTab.forEach(r -> {
                 final JPanel jp = new JPanel(new GridBagLayout());
@@ -248,6 +253,11 @@ public class ReceiptsTab extends AbstractSplitViewTab{
                 c.gridx = 1;
                 c.gridy = 4;
                 jp.add(getButtonOrder(r.codComanda()), c);
+                c.gridx = 1;
+                c.gridy = 5;
+                jp.setBorder(new LineBorder(new Color(90, 93, 97), 3));
+                jp.add(getButtonSeleziona(r.codComanda(), r.modatlitaOrdine(), r.nCoperti(), r.data(),
+                    r.ora(), r.nomeMenu(), r.numTavolo(), r.codFiscale()), c);
                 receipitPane.add(jp);
             });
         super.setLeftPanel(receipitPane);
@@ -255,10 +265,38 @@ public class ReceiptsTab extends AbstractSplitViewTab{
         super.setRightPanel(rightPanelReceipit);
     }
 
+    private JButton getButtonSeleziona(Integer codComanda, 
+            String modatlitaOrdine, Integer numCoperti,
+            Date date, Time time, String menu, Integer tavolo, String codiceFiscale) {
+        var button = new JButton("Seleziona");
+        button.addActionListener(e -> {
+            modalitaOrdine.setSelectedItem(modatlitaOrdine);
+            selectedCodComanda = codComanda;
+            nCoperti.setText(numCoperti.toString());
+            data.setText(date.toString());
+            ora.setText(time.toString());
+            nomeMenu.setSelectedItem(menu);
+            numTavolo.setSelectedItem(tavolo);
+            cameriere.setText(codiceFiscale);
+        });
+        return button;
+    }
+
     private JButton getButtonCheck(int codComanda) {
         var button = new JButton("Calcola conto");
         button.addActionListener(e -> {
                 ReceipitDAO.getChek(codComanda);
+                refresh();
+            });
+        return button;
+    }
+
+    private JButton getButtonModifyComanda() {
+        var button = new JButton("Modifica");
+        button.addActionListener(e -> {
+                ReceipitDAO.modifyReciepit(selectedCodComanda, (String) modalitaOrdine.getSelectedItem(),
+                     Integer.valueOf(nCoperti.getText()), Date.valueOf(data.getText()), Time.valueOf(ora.getText()), 
+                     (String) nomeMenu.getSelectedItem(), (Integer) numTavolo.getSelectedItem(), cameriere.getText());
                 refresh();
             });
         return button;
@@ -339,7 +377,11 @@ public class ReceiptsTab extends AbstractSplitViewTab{
         rightPanelReceipit.add(cameriere, c);
         c.gridx = 0;
         c.gridy = 9;
+        c.insets = new Insets(40, 0, 0, 0);
         rightPanelReceipit.add(getButtonCrea(), c);
+        c.gridx = 1;
+        c.gridy = 9;
+        rightPanelReceipit.add(getButtonModifyComanda(), c);
     }
 
     private JButton getButtonCrea() {

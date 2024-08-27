@@ -15,6 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 import it.unibo.cloudnine.dao.BookingsDAO;
 import it.unibo.cloudnine.view.View;
@@ -135,9 +137,14 @@ public class BookingsTab extends AbstractSplitViewTab {
                 c.gridx = 0;
                 c.gridy = 4;
                 jp.add(new JLabel("CodFiscale" + ": " + r.codFiscale()), c);
+                c.gridx = 0;
+                c.gridy = 5;
+                jp.add(new JLabel("Coperti" + ": " + r.coperti), c);
                 c.gridx = 1;
                 c.gridy = 2;
                 jp.add(getCancelBUtton(r), c);
+                jp.setBorder(new LineBorder(new Color(90, 93, 97), 3));
+                jp.setBorder(new LineBorder(new Color(90, 93, 97), 3));
                 leftPane.add(jp);
             });
     }

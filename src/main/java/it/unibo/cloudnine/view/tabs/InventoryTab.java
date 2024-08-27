@@ -12,6 +12,8 @@ import javax.swing.JTextField;
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 import it.unibo.cloudnine.dao.InventoryDAO;
 import it.unibo.cloudnine.view.View;
@@ -149,6 +151,7 @@ public class InventoryTab extends AbstractSplitViewTab {
                 c.gridx = 0;
                 c.gridy = 3;
                 jp.add(new JLabel("Quantita'" + ": " + r.quantita), c);
+                jp.setBorder(new LineBorder(new Color(90, 93, 97), 3));
                 rawPane.add(jp);
             });
         super.setLeftPanel(rawPane);
@@ -178,6 +181,7 @@ public class InventoryTab extends AbstractSplitViewTab {
                 c.gridx = 0;
                 c.gridy = 1;
                 jp.add(new JLabel("Quantita'" + ": " + r.quantity), c);
+                jp.setBorder(new LineBorder(new Color(90, 93, 97), 3));
                 criticPane.add(jp);
             });
         super.setLeftPanel(criticPane);
@@ -217,6 +221,7 @@ public class InventoryTab extends AbstractSplitViewTab {
                 c.gridx = 1;
                 c.gridy = 1;
                 jp.add(getButtonDiminuisci(quantityField, r.nome));
+                jp.setBorder(new LineBorder(new Color(90, 93, 97), 3));
             });
             super.setLeftPanel(ingredientPane);
     }
@@ -298,6 +303,7 @@ public class InventoryTab extends AbstractSplitViewTab {
                 c.gridx = 0;
                 c.gridy = 3;
                 jp.add(new JLabel("Quantita'" + ": " + r.quantita), c);
+                jp.setBorder(new LineBorder(new Color(90, 93, 97), 3));
                 rawPane.add(jp);
             });
         super.setLeftPanel(rawPane);

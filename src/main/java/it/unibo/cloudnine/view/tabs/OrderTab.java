@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 import it.unibo.cloudnine.dao.OrderDAO;
 import it.unibo.cloudnine.data.Order;
@@ -54,6 +56,7 @@ public class OrderTab extends AbstractSplitViewTab {
             c.gridy = 0;
             c.insets = new Insets(0, 30, 0, 0);
             jp.add(getButtonPlate(r.nOrdine(), r.codComanda()), c);
+            jp.setBorder(new LineBorder(new Color(90, 93, 97), 3));
         });
         super.setLeftPanel(orderPane);
     }
@@ -86,6 +89,7 @@ public class OrderTab extends AbstractSplitViewTab {
             c.gridx = 0;
             c.gridy = 2;
             jp.add(new JLabel("Numero Piatti" + ": " + r.nPiatti()), c);
+            jp.setBorder(new LineBorder(new Color(90, 93, 97), 3));
             platePane.add(jp);
         });
         super.setLeftPanel(platePane);

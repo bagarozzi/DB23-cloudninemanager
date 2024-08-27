@@ -56,12 +56,24 @@ public class ReceipitDAO {
     private static final String DELETE_PLATE_FROM_ORDER = "DELETE FROM richiede\r\n" + //
                 "WHERE Cod_Comanda = ? AND N_Ordine = ? AND Cod_vivanda = ?";
 
+    private static final String MODIFY_RECIEPIT = "UPDATE `comanda` SET Modalita_d_odine = ?, Coperti = ?, Data = ?, Ora = ?, Nome_Menu = ?, Num_Tavolo = ? ,CodFiscale = ?\r\n" + //
+                "WHERE Cod_Comanda = ?";
+
     private static final DatabaseManager manager;
 
     static {
         manager = CloudnineManager.getDatabaseManager();
     }
 
+
+    public static void modifyReciepit(Integer codComanda, String modalitaOrdine, Integer nCoperti, Date data, Time ora, String nomeMenu, Integer numTavolo, String codFiscale) {
+        try {
+            manager.openConnection();
+            manager.setQuery(MODIFY_RECIEPIT, modalitaOrdine, nCoperti, data, ora, nomeMenu, numTavolo, codFiscale, codComanda);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 
     public static void deletePlateFromOrder(int codComanda, int nOrdine, int codVivanda) {
         try {
